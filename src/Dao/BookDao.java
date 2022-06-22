@@ -44,7 +44,7 @@ public class BookDAO {
 		return bookList;
 	}
 
-	// 도서 추가
+	// 도서 추가 
 	public int bookInsert(Connection conn, Book b) {
 		String query = "INSERT INTO Book "
 				     + "VALUES(BOOK_SEQ.NEXTVAL, ?, ?, ?, TO_DATE(?, 'RRRR/MM/DD'), ?)";
@@ -119,7 +119,7 @@ public class BookDAO {
 		return result;
 	}
 
-	// 4. 도서 아이디로 조회
+	// 3. 도서 아이디로 조회
 	public Book bookSelectId(Connection conn, int num) {
 		String query = "SELECT * FROM BOOK "
 				     + "WHERE NUM = ?";
@@ -152,7 +152,7 @@ public class BookDAO {
 		return book;
 	}
 
-	// 5. 도서 제목으로 조회
+	// 4. 도서 제목으로 조회
 	public List<Book> bookSelectTitle(Connection conn, String bookTitle) {
 		String query = "SELECT * FROM BOOK "
 				     + "WHERE NAME LIKE ('%' || ? || '%')";
