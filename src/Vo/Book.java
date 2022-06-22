@@ -1,7 +1,7 @@
 package Vo;
 
 public class Book {
-    private int num;
+        private String num;
 	private String name;
 	private String author;
 	private String genre;
@@ -10,7 +10,7 @@ public class Book {
    public Book(){
     }
 
-    public Book(int num, String name, String author, String genre,boolean rent) {
+    public Book(String num, String name, String author, String genre,boolean rent) {
         this.num =num;
         this.name = name;
         this.author = author;
@@ -18,15 +18,15 @@ public class Book {
 		this.rent = rent;
     }
 
-	public String getnum() {
+	public int getnum() {
 		return num;
 	}
 
-    public void setnum(String num) {
+        public void setnum(String num) {
 		this.num = num;
 	}
 
-    public String getname() {
+        public String getname() {
 		return name;
 	}
 
