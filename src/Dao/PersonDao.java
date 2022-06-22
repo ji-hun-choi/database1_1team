@@ -23,7 +23,7 @@ public class PersonDao {
         return pwd;
     }
 
-    public boolean isAdminCheck() {
+    public boolean getAdminCheck() {
         return adminCheck;
     }
 
@@ -80,15 +80,41 @@ public class PersonDao {
         return "";
     }
 
-    public String searchPwd(String id, String phonenum) { // ok
+    public boolean searchId(String id) { // ok
         Connection conn = dbconn.getConn();
-        ResultSet rs ;
-        String sql = "select * from person where id=? and phone_num=?";
+        ResultSet rs;
+        String sql = "select * from person where id = ?";
 
         try {
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, id);
-            pstmt.setString(2, phonenum);
+            rs = pstmt.executeQuery();
+            if(rs.next()){
+                return true;
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException e){
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
+
+
+    public String searchPwd(String id, String name, String phonenum) { // ok
+        Connection conn = dbconn.getConn();
+        ResultSet rs ;
+        String sql = "select * from person where id=? and name=? and phone_num=?";
+
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, id);
+            pstmt.setString(2, name);
+            pstmt.setString(3, phonenum);
             rs = pstmt.executeQuery();
             if(rs.next()){
                 return rs.getString(3);
@@ -133,16 +159,11 @@ public class PersonDao {
         }
         return false;
     }
-    public boolean logout() { // ok
-        if (id.equals("") && pwd.equals("")){
-            return false;
-        }
-        else {
-            this.id = "";
-            this.pwd = "";
-            this.adminCheck = false;
-            return true;
-        }
+    public void logout() { // ok
+        this.id = "";
+        this.pwd = "";
+        this.adminCheck = false;
+
     }
 
     public void modify(Person p) { // ok
