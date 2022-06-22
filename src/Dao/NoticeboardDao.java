@@ -35,7 +35,7 @@ public class NoticeboardDao {
     
     public NoticeboardDao() {dbconn = MysqlConnect.getInstance();}
 
-    public void insert(Noticeboard p) { // ok
+    public void insert(Noticeboard p) { // 작성
         Connection conn = dbconn.getConn();
 
         String sql = "insert into Noticeboard(num, title, content,p_id) values(?, ?, ?, ?)";
@@ -59,16 +59,15 @@ public class NoticeboardDao {
         }
     }
 
-    public void modify(Noticeboard p) { // ok
+    public void modify(Noticeboard p) { //수정
         Connection conn = dbconn.getConn();
-        String sql = "update person set title=?, content=?, p_id=?, where num=?";
+        String sql = "update noticeboard set title=?, content=?, where num=?";
 
         try {
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, p.getTitle());
-            pstmt.setString(2, p.getContent());
-            pstmt.setString(3, p.getP_id());
-            pstmt.setInt(4, p.getNum());
+            pstmt.setString(2, p.getContent();
+            pstmt.setInt(3, p.getNum());
 
             pstmt.executeUpdate();
         } catch (SQLException e){
@@ -82,7 +81,7 @@ public class NoticeboardDao {
         }
     }
     
-    public ArrayList<Noticeboard> selectAll(){ // ok
+    public ArrayList<Noticeboard> selectAll(){ //전체선택
         Connection conn = dbconn.getConn();
         ResultSet rs;
         String sql = "select * from Noticeboard order by name";
@@ -109,10 +108,10 @@ public class NoticeboardDao {
         return list;
     }
 
-    public void delete(int num) {  // ok
-        // 1. db¿¬°á
+    public void delete(int num) { //삭제
+        
         Connection conn = dbconn.getConn();
-        // 2. sql
+      
         String sql = "delete from Noticeboard where num=?";
         try {
             PreparedStatement pstmt = conn.prepareStatement(sql);
