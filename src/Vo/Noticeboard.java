@@ -17,7 +17,7 @@ public class Noticeboard {
 		    this.num = num;
 		    this.title = title;
 		    this.content = content;
-		}
+		} //추가
 	
 		public Noticeboard(int num, String title, String content, String p_id) {
 		    this.num = num;
