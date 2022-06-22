@@ -13,6 +13,12 @@ public class Noticeboard {
 		public Noticeboard() {	
 		}
 
+		public Noticeboard(int num, String title, String content) {
+		    this.num = num;
+		    this.title = title;
+		    this.content = content;
+		}
+	
 		public Noticeboard(int num, String title, String content, String p_id) {
 		    this.num = num;
 		    this.title = title;
