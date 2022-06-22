@@ -80,6 +80,31 @@ public class PersonDao {
         return "";
     }
 
+    public boolean searchId(String id) { // ok
+        Connection conn = dbconn.getConn();
+        ResultSet rs;
+        String sql = "select * from person where id = ?";
+
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, id);
+            rs = pstmt.executeQuery();
+            if(rs.next()){
+                return true;
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException e){
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
+
+
     public String searchPwd(String id, String phonenum) { // ok
         Connection conn = dbconn.getConn();
         ResultSet rs ;
