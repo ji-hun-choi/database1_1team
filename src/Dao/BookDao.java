@@ -55,8 +55,8 @@ public class BookDao {
 	// 도서 추가 
 	public void insert(Book b) {
 		Connection conn = dbconn.getConn();
-		String query = "INSERT INTO Book "
-				     + "VALUES(BOOK_SEQ.NEXTVAL, ?, ?, ?, TO_DATE(?, 'RRRR/MM/DD'), ?)";
+		String query = "INSERT INTO Book(bname, author, genre,rent) " +
+				"values(?,?,?,?) ";
 		int result = 0;
 		
 		try {
@@ -194,7 +194,6 @@ public class BookDao {
 				e.printStackTrace();
 			}
 		}
-		
 		return b;
 	}
 

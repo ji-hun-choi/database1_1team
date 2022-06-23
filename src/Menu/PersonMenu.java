@@ -16,7 +16,7 @@ public class PersonMenu {
     public PersonMenu(PersonService p){
         pservice = p;
         bservice = new BookService();
-        rservice = new RentService();
+//        rservice = new RentService();
         nservice = new NoticeService();
     }
 

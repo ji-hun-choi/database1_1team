@@ -1,9 +1,9 @@
 package Service;
 
 import Dao.PersonDao;
-import Dao.Rent_Dao;
+import Dao.RentDao;
 import Vo.Person;
-import Vo.Rent_Vo;
+import Vo.RentVo;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -44,10 +44,10 @@ public class PersonService {
     }
 
     PersonDao dao ;
-    Rent_Dao rdao;
+    RentDao rdao;
     public PersonService() {
         dao = new PersonDao();
-        rdao = new Rent_Dao();
+        rdao = new RentDao();
     }
 
     public void insertPeople(Scanner sc) {
@@ -177,8 +177,8 @@ public class PersonService {
         String choice = sc.next().toUpperCase();
 
         if (choice.equals("Y")){
-            ArrayList<Rent_Vo> list = rdao.searchPid(id);
-            for (Rent_Vo r : list){
+            ArrayList<RentVo> list = rdao.searchPid(id);
+            for (RentVo r : list){
                 rdao.delete(r.getR_num());
             }
             dao.delete(id, pwd);
@@ -199,8 +199,8 @@ public class PersonService {
         System.out.print("정말로 삭제 하시겠습니까? Y or N : ");
         String choice = sc.next().toUpperCase();
         if (choice.equals("Y")){
-            ArrayList<Rent_Vo> list = rdao.searchPid(id);
-            for (Rent_Vo r : list){
+            ArrayList<RentVo> list = rdao.searchPid(id);
+            for (RentVo r : list){
                 rdao.delete(r.getR_num());
             }
             dao.delete(id, pwd);

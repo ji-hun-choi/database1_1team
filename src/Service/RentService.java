@@ -3,19 +3,19 @@ package Service;
 import java.util.Scanner;
 import java.util.ArrayList;
 
-import Dao.Rent_Dao;
-import Vo.Rent_Vo;
+import Dao.RentDao;
+import Vo.RentVo;
 
 
-public class Rent_Service {
-	private Rent_Dao r_dao;
-	private Rent_Vo r_vo;
-
-	
+public class RentService {
+	private RentDao r_dao;
+	private RentVo r_vo;
 
 	
-	public Rent_Service() {
-		r_dao = new Rent_Dao();
+
+	
+	public RentService() {
+		r_dao = new RentDao();
 	}
 	
 	public void addRent(Scanner sc) { //내 아이디로 대여를 하는 것이다. 나머지 값은 입력받아서.
@@ -43,7 +43,7 @@ public class Rent_Service {
 			 
 			 String r_return = "";//반납날짜는 아직 없는것이 맞음.
 			 
-			 r_dao.insert(new Rent_Vo(r_num, b_num, p_id, start_day, end_day, r_return));
+			 r_dao.insert(new RentVo(r_num, b_num, p_id, start_day, end_day, r_return));
 			 return;
 
 		 } else {
@@ -115,7 +115,7 @@ public class Rent_Service {
 		 System.out.println("r_return: ");
 		 String r_return = sc.next();		 
 		 
-		r_dao.update(new Rent_Vo(r_num, b_num, p_id, start_day, end_day, r_return));
+		r_dao.update(new RentVo(r_num, b_num, p_id, start_day, end_day, r_return));
 		
 		return;
 	}
@@ -170,7 +170,7 @@ public class Rent_Service {
 		 return;
 	}
 	
-	public Rent_Vo selectRentRnum(Scanner sc) {
+	public RentVo selectRentRnum(Scanner sc) {
 		int r_num = 0;
 		boolean r_num_flag = false;
 		
@@ -199,15 +199,15 @@ public class Rent_Service {
 		return r_vo;
 	}
 
-	public ArrayList<Rent_Vo> selectAll() {
-		ArrayList<Rent_Vo> list = null;
+	public ArrayList<RentVo> selectAll() {
+		ArrayList<RentVo> list = null;
 		list = r_dao.selectAll();
 		
 		return(list); 
 	}
 	
-	public ArrayList<Rent_Vo> selectByBnum(Scanner sc) {
-		ArrayList<Rent_Vo> list = null;
+	public ArrayList<RentVo> selectByBnum(Scanner sc) {
+		ArrayList<RentVo> list = null;
 		
 		int b_num = 0;
 			 while (b_num == 0) {//r_num 형식이 맞는지 확인하는 문
@@ -225,8 +225,8 @@ public class Rent_Service {
 	return(list); 
 	}
 	
-	public ArrayList<Rent_Vo> selectByPid(Scanner sc) {
-		ArrayList<Rent_Vo> list = null;
+	public ArrayList<RentVo> selectByPid(Scanner sc) {
+		ArrayList<RentVo> list = null;
 		
 		System.out.println("Enter p_id: ");
 		String p_id = sc.next();
@@ -235,8 +235,8 @@ public class Rent_Service {
 	return(list); 
 	}
 	
-	public ArrayList<Rent_Vo> selectByRreturn(Scanner sc) {
-		ArrayList<Rent_Vo> list = null;
+	public ArrayList<RentVo> selectByRreturn(Scanner sc) {
+		ArrayList<RentVo> list = null;
 		
 		System.out.println("Enter r_return: ");
 		String r_return = sc.next();

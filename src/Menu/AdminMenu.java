@@ -3,7 +3,7 @@ package Menu;
 import Service.BookService;
 import Service.NoticeService;
 import Service.PersonService;
-import Service.RentService;
+//import Service.RentService;
 
 import java.util.Scanner;
 
@@ -11,7 +11,7 @@ public class AdminMenu {
 
     private PersonService pservice;
     private BookService bservice;
-    private RentService rservice;
+//    private RentService rservice;
     private NoticeService nservice;
 
     public AdminMenu(PersonService p){
