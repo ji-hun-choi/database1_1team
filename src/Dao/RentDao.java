@@ -6,19 +6,19 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import Vo.Rent_Vo;
+import Vo.RentVo;
 
 import conn.MysqlConnect;
 
-public class Rent_Dao {
+public class RentDao {
 	private MysqlConnect myconn;
 		
-	public Rent_Dao() {
+	public RentDao() {
 		myconn = MysqlConnect.getInstance();
 	}
 	
 	//---------------------------------------------------
-	public void insert(Rent_Vo r) {
+	public void insert(RentVo r) {
 		Connection conn = myconn.getConn();
 
 		String sql = "insert into rent(b_num, p_id, start_day, end_day, r_return) values(?,?,?,?,?)";
@@ -47,9 +47,9 @@ public class Rent_Dao {
 	}
 	
 	//-------------------------------
-	public ArrayList<Rent_Vo> selectAll() {
+	public ArrayList<RentVo> selectAll() {
 		ResultSet rs = null;
-		ArrayList<Rent_Vo> list = new ArrayList<Rent_Vo>();
+		ArrayList<RentVo> list = new ArrayList<RentVo>();
 
 		Connection conn = myconn.getConn();
 
@@ -60,7 +60,7 @@ public class Rent_Dao {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				list.add(new Rent_Vo(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6)));
+				list.add(new RentVo(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6)));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -76,9 +76,9 @@ public class Rent_Dao {
 	}
 	
 	//-------------------------------
-	public Rent_Vo select_by_r_num(int r_num) {// r_num 기준 검색
+	public RentVo select_by_r_num(int r_num) {// r_num 기준 검색
 		ResultSet rs;
-		Rent_Vo r = null; 
+		RentVo r = null;
 
 		Connection conn = myconn.getConn();
 
@@ -100,7 +100,7 @@ public class Rent_Dao {
 				String start_day = rs.getString(4);
 				String end_day = rs.getString(5);
 				String r_return = rs.getString(6);
-				r = new Rent_Vo(r_num1, b_num, p_id, start_day, end_day, r_return);
+				r = new RentVo(r_num1, b_num, p_id, start_day, end_day, r_return);
 			} else {
 				System.out.println("no such r_num");
 			}
@@ -119,9 +119,9 @@ public class Rent_Dao {
 	}
 
 	//-----------------------------------------------------
-	public ArrayList<Rent_Vo> select_by_p_id(String p_id) {// p_id 기준 검색
+	public ArrayList<RentVo> select_by_p_id(String p_id) {// p_id 기준 검색
 		ResultSet rs = null;
-		ArrayList<Rent_Vo> list = new ArrayList<Rent_Vo>();
+		ArrayList<RentVo> list = new ArrayList<RentVo>();
 
 		Connection conn = myconn.getConn();
 
@@ -136,9 +136,9 @@ public class Rent_Dao {
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
-				list.add(new Rent_Vo(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6)));
+				list.add(new RentVo(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6)));
 				while (rs.next()) {
-					list.add(new Rent_Vo(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6)));
+					list.add(new RentVo(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6)));
 				}
 			}else {
 				System.out.println("no rent found by " + p_id);
@@ -157,9 +157,9 @@ public class Rent_Dao {
 		return list;
 	}
 	
-	public ArrayList<Rent_Vo> select_by_r_return(String r_return) {// r_return 기준 검색
+	public ArrayList<RentVo> select_by_r_return(String r_return) {// r_return 기준 검색
 		ResultSet rs = null;
-		ArrayList<Rent_Vo> list = new ArrayList<Rent_Vo>();
+		ArrayList<RentVo> list = new ArrayList<RentVo>();
 
 		Connection conn = myconn.getConn();
 
@@ -174,9 +174,9 @@ public class Rent_Dao {
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
-				list.add(new Rent_Vo(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6)));
+				list.add(new RentVo(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6)));
 				while (rs.next()) {
-					list.add(new Rent_Vo(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6)));
+					list.add(new RentVo(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6)));
 				}
 			}else {
 				System.out.println("no rent of r_return " + r_return);
@@ -196,9 +196,9 @@ public class Rent_Dao {
 	}
 	
 	//-------------------------------	
-	public ArrayList<Rent_Vo> select_by_b_num(int b_num) {// b_num 기준 검색
+	public ArrayList<RentVo> select_by_b_num(int b_num) {// b_num 기준 검색
 		ResultSet rs = null;
-		ArrayList<Rent_Vo> list = new ArrayList<Rent_Vo>();
+		ArrayList<RentVo> list = new ArrayList<RentVo>();
 
 		Connection conn = myconn.getConn();
 
@@ -213,9 +213,9 @@ public class Rent_Dao {
 			rs = pstmt.executeQuery();
 
 			if(rs.next()) {
-				list.add(new Rent_Vo(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6)));
+				list.add(new RentVo(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6)));
 				while (rs.next()) {
-					list.add(new Rent_Vo(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6)));
+					list.add(new RentVo(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6)));
 				}
 			}else {
 				System.out.println("no rent of book_id: " + b_num + " found");
@@ -234,7 +234,7 @@ public class Rent_Dao {
 	}
 	
 	//------------------------------
-	public void update(Rent_Vo r) { // 싸그리 세로 입력받은 Rent_Vo를 r_num 로 찾아서 update함
+	public void update(RentVo r) { // 싸그리 세로 입력받은 Rent_Vo를 r_num 로 찾아서 update함
 		Connection conn = myconn.getConn();
 
 		String sql = "update rent set b_num=?, p_id=?,start_day=? ,end_day=? ,r_return=? where r_num=?";
@@ -296,10 +296,10 @@ public class Rent_Dao {
 	}
 
 	//-------------------------추후추가됨
-	public ArrayList<Rent_Vo> searchPid(String id){
+	public ArrayList<RentVo> searchPid(String id){
 		Connection conn = myconn.getConn();
 		ResultSet rs;
-		ArrayList<Rent_Vo> list = new ArrayList<>();
+		ArrayList<RentVo> list = new ArrayList<>();
 		String sql = "select r_num from person inner join rent where id = ?";
 
 		try {
@@ -309,7 +309,7 @@ public class Rent_Dao {
 
 			rs = pstmt.executeQuery();
 			while (rs.next()){
-				list.add(new Rent_Vo(rs.getInt(1)));
+				list.add(new RentVo(rs.getInt(1)));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
