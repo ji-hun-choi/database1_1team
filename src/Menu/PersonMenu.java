@@ -24,9 +24,9 @@ public class PersonMenu {
         boolean flag = true;
         int c;
         while (flag) {
-            System.out.println("»ç¿ëÀÚ ½Ã½ºÅÛ ÀÔ´Ï´Ù.");
-            System.out.println("1.µµ¼­Á¶È¸ | 2.´ë¿©°ü¸® | 3.°Ô½ÃÆÇÁ¶È¸ | 4.°³ÀÎÁ¤º¸ º¯°Ï " +
-                    " | 5.°³ÀÎÁ¤º¸ Á¶È¸ | 6.È¸¿øÅ»Åğ | 7.·Î±×¾Æ¿ô");
+            System.out.println("ì‚¬ìš©ì ì‹œìŠ¤í…œ ì…ë‹ˆë‹¤.");
+            System.out.println("1.ë„ì„œì¡°íšŒ | 2.ëŒ€ì—¬ê´€ë¦¬ | 3.ê²Œì‹œíŒì¡°íšŒ | 4.ê°œì¸ì •ë³´ ë³€ê²… " +
+                    " | 5.ê°œì¸ì •ë³´ ì¡°íšŒ | 6.íšŒì›íƒˆí‡´ | 7.ë¡œê·¸ì•„ì›ƒ");
             c = sc.nextInt();
             switch (c) {
                 case 1:
@@ -56,13 +56,13 @@ public class PersonMenu {
         }
     }
 
-    // ÀüÃ¼Á¶È¸, »ó¼¼Á¶È¸, Á¾·á  (ºÒÇÊ¿äÇÏ´Ù »ı°¢µå´Â°Ç »©ÁÖ¼¼¿ä)
+    // ì „ì²´ì¡°íšŒ, ìƒì„¸ì¡°íšŒ, ì¢…ë£Œ  (ë¶ˆí•„ìš”í•˜ë‹¤ ìƒê°ë“œëŠ”ê±´ ë¹¼ì£¼ì„¸ìš”)
     public void bookPerson(Scanner sc){
         boolean flag = true;
         int c;
         while (flag) {
-            System.out.println("µµ¼­ ½Ã½ºÅÛ");
-            System.out.println("1.ÀüÃ¼Á¶È¸ | 2.ÀÌ¸§Á¶È¸ | 3.¹øÈ£Á¶È¸ | 4.Á¾·á"); // ¼±ÅÃ ¸ñ·Ï
+            System.out.println("ë„ì„œ ì‹œìŠ¤í…œ");
+            System.out.println("1.ì „ì²´ì¡°íšŒ | 2.ì´ë¦„ì¡°íšŒ | 3.ë²ˆí˜¸ì¡°íšŒ | 4.ì¢…ë£Œ"); // ì„ íƒ ëª©ë¡
             c = sc.nextInt();
             switch (c){
                 case 1:
@@ -82,17 +82,17 @@ public class PersonMenu {
     }
 
 
-    // ±â·ÏÁ¶È¸, ´ë¿©, ¹İ³³, Á¾·á
+    // ê¸°ë¡ì¡°íšŒ, ëŒ€ì—¬, ë°˜ë‚©, ì¢…ë£Œ
 
     public void rentPerson(Scanner sc) {
         boolean flag = true;
         int c = 0;
 
         while (flag) {
-            System.out.println("Rent ÀÏ¹İ »ç¿ëÀÚ ½Ã½ºÅÛ");
-            System.out.println("1. Ã¥ ´ë¿© | 2. ³» ´ë¿©¸ñ·Ï | 3. Ã¥ ¹İ³³ÇÏ±â | 4. Á¾·á"); // ¼±ÅÃ ¸ñ·Ï
+            System.out.println("Rent ì¼ë°˜ ì‚¬ìš©ì ì‹œìŠ¤í…œ");
+            System.out.println("1. ì±… ëŒ€ì—¬ | 2. ë‚´ ëŒ€ì—¬ëª©ë¡ | 3. ì±… ë°˜ë‚©í•˜ê¸° | 4. ì¢…ë£Œ"); // ì„ íƒ ëª©ë¡
 
-            while (c == 0) { //¼ıÀÚ¸¸ ÀÔ·ÂÇÏ´ÂÁö Ã¼Å©.
+            while (c == 0) { //ìˆ«ìë§Œ ì…ë ¥í•˜ëŠ”ì§€ ì²´í¬.
                 try {
                     System.out.println("Enter number: ");
                     c = Integer.parseInt(sc.next());
@@ -104,40 +104,42 @@ public class PersonMenu {
 
             switch (c) {
                 case (1):
-                    System.out.println("Ã¥À» ´ë¿©ÇÕ´Ï´Ù");
+                    System.out.println("ì±…ì„ ëŒ€ì—¬í•©ë‹ˆë‹¤");
                     rservice.addRent(sc);
                     break;
                 case (2):
-                    System.out.println("³» ´ë¿©¸ñ·Ï");
-                    rservice.selectByPidUser();//@@@@@@@@@@@@@@@@@@@@@@@@@@@@"" ¸¦ u_id·Î º¯È¯.
+                    System.out.println("ë‚´ ëŒ€ì—¬ëª©ë¡");
+                    rservice.selectByPidUser();//@@@@@@@@@@@@@@@@@@@@@@@@@@@@"" ë¥¼ u_idë¡œ ë³€í™˜.
                     break;
                 case (3):
-                    System.out.println("Ã¥À» ¹İ³³ÇÕ´Ï´Ù");
+                    System.out.println("ì±…ì„ ë°˜ë‚©í•©ë‹ˆë‹¤");
                     rservice.updateRentUser(sc);
                     break;
                 case (4):
-                    System.out.println("Á¾·á ÇÕ´Ï´Ù");
+                    System.out.println("ì¢…ë£Œ í•©ë‹ˆë‹¤");
                     flag = false;
                     break;
             }
         }
     }
 
-    // ÀüÃ¼È®ÀÎ
+    // ì „ì²´í™•ì¸
 
-    // ÀüÃ¼È®ÀÎ
+    // ì „ì²´í™•ì¸
     public void noticePerson(Scanner sc){
         boolean flag = true;
         int c;
         while (flag) {
-            System.out.println("°Ô½ÃÆÇ ½Ã½ºÅÛ");
-            System.out.println("1.°Ô½ÃÆÇ È®ÀÎ | 2.Á¾·á"); // ¼±ÅÃ ¸ñ·Ï
+            System.out.println("ê²Œì‹œíŒ ì‹œìŠ¤í…œ");
+            System.out.println("1.ê²Œì‹œíŒ í™•ì¸ | 2.ì¢…ë£Œ"); // ì„ íƒ ëª©ë¡
             c = sc.nextInt();
             switch (c){
-                case 1:
+                case (1):
+                    System.out.println("ê²Œì‹œê¸€ ëª©ë¡");
                     nservice.NoticeAll();
                     break;
-                case 2:
+                case (2):
+                    System.out.println("ì¢…ë£Œ í•©ë‹ˆë‹¤");
                     flag=false;
                     break;
             }
