@@ -81,6 +81,8 @@ public class NoticeService {
     
      public void NoticeDelete(Scanner sc) {
          System.out.println("게시글 삭제");
+	 System.out.println("삭제할 게시글번호입력");
+         int num = sc.nextInt();
          System.out.print("정말로 삭제 하시겠습니까? Y or N");
          String choice = sc.next().toUpperCase();
 
