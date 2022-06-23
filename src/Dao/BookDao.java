@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class BookDAO {
+public class BookDao {
 
 	// 도서 목록 전체 조회
 	public List<Book> bookSelectAll(Connection conn) {
@@ -19,7 +19,10 @@ public class BookDAO {
 		List<Book> bookList = new ArrayList<>();
 		
 		try {
+			Connection conn = dbconn.getConn();
 			stmt = conn.createStatement();
+			
+			
 			
 			rs = stmt.executeQuery(query);
 			while(rs.next()) {
@@ -45,7 +48,7 @@ public class BookDAO {
 	}
 
 	// 도서 추가 
-	public int bookInsert(Connection conn, Book b) {
+	public int bookInsert(Book b) {
 		String query = "INSERT INTO Book "
 				     + "VALUES(BOOK_SEQ.NEXTVAL, ?, ?, ?, TO_DATE(?, 'RRRR/MM/DD'), ?)";
 		PreparedStatement pstmt = null;
@@ -70,7 +73,7 @@ public class BookDAO {
 		return result;
 	}
 
-	public int bookDelete(Connection conn, int num) {
+	public int bookDelete(int num) {
 		String query = "DELETE FROM Book "
 				     + "WHERE NUM = ?";
 		PreparedStatement pstmt = null;
@@ -93,7 +96,7 @@ public class BookDAO {
 	}
 
 	// 2. 도서 정보 수정
-	public int bookUpdate(Connection conn, Book book) {
+	public int bookUpdate( Book book) {
 		String query = "UPDATE BOOK "
 				     + "SET NAME = ?, AUTHOR = ?, GENRE = ?, RENT = ?"
 				     + "WHERE num = ?";
@@ -120,7 +123,7 @@ public class BookDAO {
 	}
 
 	// 3. 도서 아이디로 조회
-	public Book bookSelectId(Connection conn, int num) {
+	public Book bookSelectId(int num) {
 		String query = "SELECT * FROM BOOK "
 				     + "WHERE NUM = ?";
 		PreparedStatement pstmt = null;
@@ -153,7 +156,7 @@ public class BookDAO {
 	}
 
 	// 4. 도서 제목으로 조회
-	public List<Book> bookSelectTitle(Connection conn, String bookTitle) {
+	public List<Book> bookSelectTitle(String bookTitle) {
 		String query = "SELECT * FROM BOOK "
 				     + "WHERE NAME LIKE ('%' || ? || '%')";
 		
