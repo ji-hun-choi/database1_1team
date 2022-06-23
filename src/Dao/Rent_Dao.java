@@ -79,7 +79,7 @@ public class Rent_Dao {
 	//-------------------------------
 	public Rent_Vo select_by_r_num(int r_num) {// r_num 기준 검색
 		ResultSet rs;
-		Rent_Vo r = null; 
+		Rent_Vo r = null;
 
 		Connection conn = myconn.getConn();
 
@@ -225,6 +225,35 @@ public class Rent_Dao {
 			}
 		}
 
+	}
+
+	public int searchPid(String id){
+		Connection conn = myconn.getConn();
+		ResultSet rs;
+
+		String sql = "select r_num from person inner join rent where id = ?";
+
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+
+			pstmt.setString(1, id);
+
+			rs = pstmt.executeQuery();
+			if (rs.next()){
+				return rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return 0;
 	}
 
 	//----------------------------------
