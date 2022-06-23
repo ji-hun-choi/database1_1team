@@ -46,6 +46,7 @@ public class PersonMenu {
                     break;
                 case 6:
                     pservice.peopleDelete(sc);
+                    flag = false;
                     break;
                 case 7:
                     pservice.peopleLogout(sc);
