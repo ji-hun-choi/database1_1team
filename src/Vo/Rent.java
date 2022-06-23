@@ -1,6 +1,6 @@
 package Vo;
 
-public class Rent {
+public class Rent_Vo {
 	
 	private int r_num;
 	private int b_num;
