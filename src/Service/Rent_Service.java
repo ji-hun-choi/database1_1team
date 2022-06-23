@@ -7,7 +7,7 @@ import Dao.Rent_Dao;
 import Vo.Rent_Vo;
 
 
-public class RentService {
+public class Rent_Service {
 	private Rent_Dao r_dao;
 	private Rent_Vo r_vo;
 
