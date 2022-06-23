@@ -66,7 +66,7 @@ public class NoticeboardDao {
         try {
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, p.getTitle());
-            pstmt.setString(2, p.getContent();
+            pstmt.setString(2, p.getContent());
             pstmt.setInt(3, p.getNum());
 
             pstmt.executeUpdate();
