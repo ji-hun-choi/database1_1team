@@ -6,8 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import conn.MysqlConnect
-import Vo.Rent_Vo
+import conn.MysqlConnect;
+import Vo.Rent_Vo;
 
 public class Rent_Dao {
 	private MysqlConnect myconn;
