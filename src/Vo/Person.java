@@ -69,7 +69,7 @@ public class Person {
         this.phoneNum = phoneNum;
     }
 
-    public boolean getAdminCheck() {
+    public boolean isAdminCheck() {
         return adminCheck;
     }
 

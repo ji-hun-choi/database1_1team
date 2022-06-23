@@ -15,6 +15,19 @@ public class PersonDao {
     private String id = "";
     private String pwd = "";
     private boolean adminCheck = false;
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setPwd(String pwd) {
+        this.pwd = pwd;
+    }
+
+    public void setAdminCheck(boolean adminCheck) {
+        this.adminCheck = adminCheck;
+    }
+
     public String getId() {
         return id;
     }
@@ -42,7 +55,7 @@ public class PersonDao {
             pstmt.setString(3,p.getPwd());
             pstmt.setString(4,p.getAddress());
             pstmt.setString(5,p.getPhoneNum());
-            pstmt.setBoolean(6,p.getAdminCheck());
+            pstmt.setBoolean(6,p.isAdminCheck());
 
             pstmt.executeUpdate();
         } catch (SQLException e){
@@ -91,7 +104,7 @@ public class PersonDao {
             rs = pstmt.executeQuery();
             if(rs.next()){
                 return true;
-            }
+            } 
         } catch (SQLException e){
             e.printStackTrace();
         } finally {
@@ -143,9 +156,9 @@ public class PersonDao {
             rs = pstmt.executeQuery();
 
             if(rs.next()){
-                this.id = rs.getString(1);
-                this.pwd = rs.getString(3);
-                this.adminCheck = rs.getBoolean(6);
+                this.setId(rs.getString(1));
+                this.setPwd(rs.getString(3));
+                this.setAdminCheck(rs.getBoolean(6));
                 return true;
             }
         } catch (SQLException e){
@@ -160,9 +173,9 @@ public class PersonDao {
         return false;
     }
     public void logout() { // ok
-        this.id = "";
-        this.pwd = "";
-        this.adminCheck = false;
+        this.setId("");
+        this.setPwd("");
+        this.setAdminCheck(false);
 
     }
 
@@ -188,6 +201,27 @@ public class PersonDao {
             }
         }
     }
+    public void modifyPwd(String id, String pwd) { // ok
+        Connection conn = dbconn.getConn();
+        String sql = "update person set pwd=? where id=?";
+
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, id);
+            pstmt.setString(2, pwd);
+
+            pstmt.executeUpdate();
+        } catch (SQLException e){
+            e.printStackTrace();
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException e){
+                e.printStackTrace();
+            }
+        }
+    }
+
 
     public Person selectOne(String id, String pwd){
         Connection conn = dbconn.getConn();
@@ -265,6 +299,33 @@ public class PersonDao {
                 conn.close();
             } catch (SQLException e) {
                 e.printStackTrace();
+            }
+        }
+        return false;
+    }
+
+    public boolean delete_admin(String id, String pwd) {  // ok
+        // 1. db¿¬°á
+        Connection conn = dbconn.getConn();
+        // 2. sql
+        String sql = "delete from person where id=? and pwd=?";
+        if (adminCheck) {
+            try {
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                pstmt.setString(1, id);
+                pstmt.setString(2, pwd);
+                int cnt = pstmt.executeUpdate();
+                if (cnt > 0) {
+                    return true;
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
         }
         return false;
