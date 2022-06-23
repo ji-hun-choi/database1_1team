@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class PersonMenu {
     private PersonService pservice;
     private BookService bservice;
-    private RentService rservice;
+    private Rent_Service r_service;
     private NoticeService nservice;
 
     public PersonMenu(PersonService p){
