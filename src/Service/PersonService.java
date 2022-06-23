@@ -1,6 +1,7 @@
 package Service;
 
 import Dao.PersonDao;
+import Dao.Rent_Dao;
 import Vo.Person;
 
 import java.util.ArrayList;
@@ -42,8 +43,10 @@ public class PersonService {
     }
 
     PersonDao dao ;
+    Rent_Dao rdao;
     public PersonService() {
         dao = new PersonDao();
+        rdao = new Rent_Dao();
     }
 
     public void insertPeople(Scanner sc) {
@@ -168,11 +171,12 @@ public class PersonService {
     }
 
     public void peopleDelete(Scanner sc) { // 회원 탈퇴
-       System.out.println("회원 탈퇴");
-        System.out.print("정말로 삭제 하시겠습니까? Y or N");
+        System.out.println("회원 탈퇴");
+        System.out.print("정말로 탈퇴 하시겠습니까? Y or N");
         String choice = sc.next().toUpperCase();
 
         if (choice.equals("Y")){
+            rdao.delete(rdao.searchPid(id));
             dao.delete(id, pwd);
             System.out.println("삭제 되었습니다.");
             peopleLogout(sc);
@@ -182,13 +186,17 @@ public class PersonService {
     }
 
     // 이후 관리자
-    public void peopleDeleteAdmin(Scanner sc) { // 회원 탈퇴
+    public void peopleDeleteAdmin(Scanner sc) { // 회원 삭제
         System.out.println("회원 삭제");
         System.out.print("삭제할 아이디 입력:");
         String id = sc.next();
         System.out.print("비밀번호 입력:");
         String pwd = sc.next();
-        if (dao.delete(id, pwd)){
+        System.out.print("정말로 삭제 하시겠습니까? Y or N");
+        String choice = sc.next().toUpperCase();
+        if (choice.equals("Y")){
+            rdao.delete(rdao.searchPid(id));
+            dao.delete(id, pwd);
             System.out.println("삭제 되었습니다.");
         } else {
             System.out.println("실패");
