@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import Vo.Rent_Vo
+import Vo.Rent_Vo;
 
 import conn.MysqlConnect;
 

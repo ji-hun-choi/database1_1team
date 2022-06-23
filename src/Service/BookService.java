@@ -1,7 +1,7 @@
 package Service;
 
 import Dao.BookDao;
-import Vo.Book
+import Vo.Book;
 
 
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ public class BookService {
         // 도서등록
         public void addBook(Scanner sc) {
             System.out.print("num:");
-            Int num = sc.next();
+            int num = sc.nextInt();
 
             System.out.print("name:");
             String name = sc.next();
@@ -26,14 +26,14 @@ public class BookService {
             String author = sc.next();
     
             System.out.print("genre:");
-            String genre = sc.nextInt();
+            String genre = sc.next();
     
             System.out.print("rent:");
-            boolean rent = sc.nextInt();
+            boolean rent = sc.nextBoolean();
 
 
            Book  p = new Book(num, name, author, genre , rent );
-            dao.insert(p);
+           dao.insert(p);
         }
     
         // 도서번호로 검색
@@ -41,7 +41,7 @@ public class BookService {
             System.out.print("search num:");
             int num = sc.nextInt();
     
-            Book p = dao.bookSelectId(num);
+            Book p = dao.selectNum(num);
             if (p == null) {
                 System.out.println("없는 도서번호");
             } else {
@@ -55,11 +55,11 @@ public class BookService {
             System.out.print("search name:");
             String name = sc.next();
     
-            ArrayList<Product> list = dao.bookSelectTitle(name);
-            if (list.size() == 0) {
+            Book b = dao.selectTitle(name);
+            if (b == null) {
                 System.out.println("없는 도서");
             } else {
-                System.out.println(list);
+                System.out.println(b);
             }
         }
     
@@ -72,12 +72,14 @@ public class BookService {
             String name = sc.next();
     
             System.out.print("new author:");
-            int price = sc.nextInt();
+            String author = sc.next();
     
             System.out.print("new genre:");
-            String genre = sc.nextInt();
+            String genre = sc.next();
 
-            dao.update(new book(num, name, author,genre,rent));
+            boolean rent = false;
+
+            dao.update(new Book(num, name, author,genre,rent));
     
         }
     
@@ -85,12 +87,8 @@ public class BookService {
         public void delProduct(Scanner sc) {
             System.out.print("삭제할 도서번호 :");
             int num = sc.nextInt();
-            boolean flag = dao.bookDelete(num);
-            if (flag) {
-                System.out.println("삭제완료");
-            } else {
-                System.out.println("삭제 취소됨");
-            }
+            dao.bookDelete(num);
+            System.out.println("삭제완료");
         }
     
         // 전체조회
