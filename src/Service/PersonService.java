@@ -3,6 +3,7 @@ package Service;
 import Dao.PersonDao;
 import Vo.Person;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class PersonService {
@@ -100,6 +101,45 @@ public class PersonService {
         String phonenum = sc.next();
 
         dao.modify(new Person(id,pwd,address,phonenum));
+    }
+
+    public void peopleSelection(Scanner sc) {
+        System.out.println("내 정보 보기");
+        System.out.println(dao.selectOne(id, pwd));
+    }
+
+    public void peopleDelete(Scanner sc) { // 회원 탈퇴
+       System.out.println("회원 삭제");
+        System.out.print("삭제할 아이디 입력:");
+        String id = sc.next();
+        System.out.print("비밀번호 입력:");
+        String pwd = sc.next();
+        if (dao.delete(id, pwd)){
+            System.out.println("삭제 되었습니다.");
+        } else {
+            System.out.println("실패");
+        }
+    }
+
+    // 이후 관리자
+    public void peopleDeleteAdmin(Scanner sc) { // 회원 탈퇴
+        System.out.println("회원 삭제");
+        System.out.print("삭제할 아이디 입력:");
+        String id = sc.next();
+        System.out.print("비밀번호 입력:");
+        String pwd = sc.next();
+        if (dao.delete(id, pwd)){
+            System.out.println("삭제 되었습니다.");
+        } else {
+            System.out.println("실패");
+        }
+    }
+
+    public void peopleAll(Scanner sc){
+        ArrayList<Person> list = dao.selectAll();
+        for (Person l : list){
+            System.out.println(l);
+        }
     }
 
 }

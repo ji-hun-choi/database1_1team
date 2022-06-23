@@ -188,6 +188,27 @@ public class PersonDao {
             }
         }
     }
+    public void modifyPwd(String id, String pwd) { // ok
+        Connection conn = dbconn.getConn();
+        String sql = "update person set pwd=? where id=?";
+
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, id);
+            pstmt.setString(2, pwd);
+
+            pstmt.executeUpdate();
+        } catch (SQLException e){
+            e.printStackTrace();
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException e){
+                e.printStackTrace();
+            }
+        }
+    }
+
 
     public Person selectOne(String id, String pwd){
         Connection conn = dbconn.getConn();
@@ -265,6 +286,33 @@ public class PersonDao {
                 conn.close();
             } catch (SQLException e) {
                 e.printStackTrace();
+            }
+        }
+        return false;
+    }
+
+    public boolean delete_admin(String id, String pwd) {  // ok
+        // 1. db¿¬°á
+        Connection conn = dbconn.getConn();
+        // 2. sql
+        String sql = "delete from person where id=? and pwd=?";
+        if (adminCheck) {
+            try {
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                pstmt.setString(1, id);
+                pstmt.setString(2, pwd);
+                int cnt = pstmt.executeUpdate();
+                if (cnt > 0) {
+                    return true;
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
         }
         return false;
