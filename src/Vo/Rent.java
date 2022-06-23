@@ -1,6 +1,6 @@
 package Vo;
 
-public class Rent_Vo {
+public class Rent {
 	
 	private int r_num;
 	private int b_num;
@@ -57,14 +57,14 @@ public class Rent_Vo {
 		this.r_return = r_return;
 	}
 
-	public Rent_Vo() {
+	public Rent() {
 	}
 
-	public Rent_Vo(int r_num) {
+	public Rent(int r_num) {
 		this.r_num = r_num;
 	}
 
-	public Rent_Vo(int r_num, int b_nun, String p_id, String start_day, String end_day, String r_return) {
+	public Rent(int r_num, int b_nun, String p_id, String start_day, String end_day, String r_return) {
 		super();
 		this.r_num = r_num;
 		this.b_num = b_nun;

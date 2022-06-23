@@ -3,7 +3,7 @@ package Service;
 import Dao.PersonDao;
 import Dao.RentDao;
 import Vo.Person;
-import Vo.RentVo;
+import Vo.Rent;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -177,8 +177,8 @@ public class PersonService {
         String choice = sc.next().toUpperCase();
 
         if (choice.equals("Y")){
-            ArrayList<RentVo> list = rdao.searchPid(id);
-            for (RentVo r : list){
+            ArrayList<Rent> list = rdao.searchPid(id);
+            for (Rent r : list){
                 rdao.delete(r.getR_num());
             }
             dao.delete(id, pwd);
@@ -199,8 +199,8 @@ public class PersonService {
         System.out.print("정말로 삭제 하시겠습니까? Y or N : ");
         String choice = sc.next().toUpperCase();
         if (choice.equals("Y")){
-            ArrayList<RentVo> list = rdao.searchPid(id);
-            for (RentVo r : list){
+            ArrayList<Rent> list = rdao.searchPid(id);
+            for (Rent r : list){
                 rdao.delete(r.getR_num());
             }
             dao.delete(id, pwd);

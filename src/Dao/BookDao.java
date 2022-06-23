@@ -17,7 +17,7 @@ public class BookDao {
 	}
 
 
-	// ÎèÑÏÑú Î™©Î°ù Ï†ÑÏ≤¥ Ï°∞Ìöå
+	// µµº≠ ∏Ò∑œ ¿¸√º ¡∂»∏
 	public ArrayList<Book> bookSelectAll() {
 		String query = "SELECT * FROM Book";
 		Connection conn = dbconn.getConn();
@@ -29,12 +29,12 @@ public class BookDao {
 			rs = pstmt.executeQuery(query);
 			while(rs.next()) {
 				int num = rs.getInt("num");
-				String name = rs.getString("name");
+				String bname = rs.getString("bname");
 				String author = rs.getString("author");
 				String genre = rs.getString("genre");
 				boolean rent = rs.getBoolean("rent");
 				
-				Book book = new Book(num, name, author, genre, rent);
+				Book book = new Book(num, bname, author, genre, rent);
 				
 				bookList.add(book);
 			}
@@ -52,7 +52,7 @@ public class BookDao {
 		return bookList;
 	}
 
-	// ÎèÑÏÑú Ï∂îÍ∞Ä 
+	// µµº≠ √ﬂ∞° 
 	public void insert(Book b) {
 		Connection conn = dbconn.getConn();
 		String query = "INSERT INTO Book(bname, author, genre,rent) " +
@@ -102,12 +102,10 @@ public class BookDao {
 		}
 	}
 
-	// 2. ÎèÑÏÑú Ï†ïÎ≥¥ ÏàòÏ†ï
+	// 2. µµº≠ ¡§∫∏ ºˆ¡§
 	public int update(Book book) {
 		Connection conn = dbconn.getConn();
-		String query = "UPDATE BOOK "
-				     + "SET NAME = ?, AUTHOR = ?, GENRE = ?, RENT = ?"
-				     + "WHERE num = ?";
+		String query = "update book set bname = ?, author = ?, genre = ?, rent = ? where num = ?";
 		int result = 0;
 		
 		try {
@@ -133,7 +131,7 @@ public class BookDao {
 		return result;
 	}
 
-	// 3. ÎèÑÏÑú ÏïÑÏù¥ÎîîÎ°ú Ï°∞Ìöå
+	// 3. µµº≠ æ∆¿Ãµ∑Œ ¡∂»∏
 	public Book selectNum(int num) {
 		Connection conn = dbconn.getConn();
 		String query = "SELECT * FROM BOOK "
@@ -148,11 +146,11 @@ public class BookDao {
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
-				book = new Book(rs.getInt("NUM"),
-								rs.getString("NAME"),
-								rs.getString("AUTHOR"),
-								rs.getString("GENRE"),
-								rs.getBoolean("RENT"));
+				book = new Book(rs.getInt("num"),
+								rs.getString("bname"),
+								rs.getString("author"),
+								rs.getString("genre"),
+								rs.getBoolean("rent"));
 			}
 			
 		} catch (SQLException e) {
@@ -168,17 +166,17 @@ public class BookDao {
 		return book;
 	}
 
-	// 4. ÎèÑÏÑú Ï†úÎ™©ÏúºÎ°ú Ï°∞Ìöå
-	public Book selectTitle(String bookTitle) {
+	// 4. µµº≠ ¡¶∏Ò¿∏∑Œ ¡∂»∏
+	public Book selectName(String bookName) {
 		Connection conn = dbconn.getConn();
 		String query = "SELECT * FROM BOOK "
-				     + "WHERE title = ?";
+				     + "WHERE bname = ?";
 		Book b = null;
 		ResultSet rs = null;
 		
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(query);
-			pstmt.setString(1, bookTitle);
+			pstmt.setString(1, bookName);
 			
 			rs = pstmt.executeQuery();
 			if(rs.next()){
@@ -196,5 +194,49 @@ public class BookDao {
 		}
 		return b;
 	}
+	public boolean rentCheck(int b_num) {
+		Connection conn = dbconn.getConn();
+		ResultSet rs;
+		String query = "select rent from book where num = ?";
+		boolean t = false;
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, b_num);
 
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				t = rs.getBoolean(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return t;
+	}
+
+	public void rentmodify(int b_num) {
+		Connection conn = dbconn.getConn();
+		ResultSet rs;
+		String query = "update book set rent = ? where num=?";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(query);
+			pstmt.setBoolean(1,true);
+			pstmt.setInt(2, b_num);
+
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }

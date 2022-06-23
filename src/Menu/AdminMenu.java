@@ -3,27 +3,33 @@ package Menu;
 import Service.BookService;
 import Service.NoticeService;
 import Service.PersonService;
-import Service.Rent_Service;
+import Service.RentService;
+import Vo.Rent;
+//import Service.RentService;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class AdminMenu {
 
     private PersonService pservice;
     private BookService bservice;
-    private Rent_Service r_service;
+    private RentService rservice;
     private NoticeService nservice;
 
     public AdminMenu(PersonService p){
         pservice = p;
+        bservice = new BookService();
+        rservice = new RentService(p.getId());
+        nservice = new NoticeService(p.getId());
     }
     public void run(Scanner sc){
         boolean flag = true;
         int c;
         while (flag) {
-            System.out.println("ê´€ë¦¬ì ì‹œìŠ¤í…œ ì…ë‹ˆë‹¤.");
-            System.out.println("1.ë„ì„œê´€ë¦¬ | 2.ëŒ€ì—¬ê´€ë¦¬ | 3.ê²Œì‹œíŒê´€ë¦¬ | 4.ê°œì¸ì •ë³´ ë³€ê²… " +
-                    " | 5.ê°œì¸ì •ë³´ ì¡°íšŒ | 6.ëª¨ë“  ìœ ì € ë³´ê¸° | 7.ìœ ì € ì‚­ì œ | 8.ë¡œê·¸ì•„ì›ƒ");
+            System.out.println("°ü¸®ÀÚ ½Ã½ºÅÛ ÀÔ´Ï´Ù.");
+            System.out.println("1.µµ¼­°ü¸® | 2.´ë¿©°ü¸® | 3.°Ô½ÃÆÇ°ü¸® | 4.°³ÀÎÁ¤º¸ º¯°Ï " +
+                    " | 5.°³ÀÎÁ¤º¸ Á¶È¸ | 6.¸ğµç À¯Àú º¸±â | 7.À¯Àú »èÁ¦ | 8.·Î±×¾Æ¿ô");
             c = sc.nextInt();
             switch (c){
                 case 1:
@@ -54,100 +60,143 @@ public class AdminMenu {
             }
         }
     }
-    // ì¶”ê°€, ìˆ˜ì •, ì‚­ì œ, ì±… ì „ì²´ ì¡°íšŒ, ìƒì„¸ì¡°íšŒ, ì¢…ë£Œ
+    // Ãß°¡, ¼öÁ¤, »èÁ¦, Ã¥ ÀüÃ¼ Á¶È¸, »ó¼¼Á¶È¸, Á¾·á
     public void bookAdmin(Scanner sc){
         boolean flag = true;
         int c;
         while (flag) {
-            System.out.println("ë„ì„œ ê´€ë¦¬");
-            System.out.println(""); // ì„ íƒ ëª©ë¡
+            System.out.println("µµ¼­ °ü¸®");
+            System.out.println("1.Ãß°¡ | 2.¼öÁ¤ | 3.»èÁ¦ | 4.ÀüÃ¼Á¶È¸ |" +
+                    " 5.Ã¥ÀÌ¸§Á¶È¸ | 6.Ã¥¹øÈ£Á¶È¸ | 7.Á¾·á"); // ¼±ÅÃ ¸ñ·Ï
             c = sc.nextInt();
             switch (c){
+                case 1:
+                    bservice.addBook(sc);
+                    break;
+                case 2:
+                    bservice.editBook(sc);
+                    break;
+                case 3:
+                    bservice.delBook(sc);
+                    break;
+                case 4:
+                    bservice.printAll();
+                    break;
+                case 5:
+                    bservice.getBookByName(sc);
+                    break;
+                case 6:
+                    bservice.getBookByNum(sc);
+                    break;
+                case 7:
+                    flag=false;
+                    break;
 
             }
         }
     }
 
-    // ì „ì²´ì¡°íšŒ, ìˆ˜ì •, í•˜ë‚˜ë§Œì¡°íšŒ, ì¢…ë£Œ
-    public void rentAdmin(Scanner sc){
+    // ÀüÃ¼Á¶È¸, ¼öÁ¤, ÇÏ³ª¸¸Á¶È¸, Á¾·á
+    public void rentAdmin(Scanner sc) {
         boolean flag = true;
         int c = 0;
-               
+
         while (flag) {
-            System.out.println("Admin ì˜ Rentê´€ë¦¬ ì‹œìŠ¤í…œ");
-            System.out.println("1. ì „ì²´Rentê¸°ë¡ ì¡°íšŒ");
-            System.out.println("2. Bookì˜ ëŒ€ì—¬ê¸°ë¡ë“¤ ì¡°íšŒ");
-            System.out.println("3. ìœ ì € í•˜ë‚˜ì˜ ëŒ€ì—¬ê¸°ë¡ë“¤ ì¡°íšŒ");
-            System.out.println("4. ëŒ€ì—¬ê¸°ë¡ ë‹¨ì¼ ì¡°íšŒ");
-            System.out.println("5. íŠ¹ì • ëŒ€ì—¬ê¸°ë¡ ìˆ˜ì •");
-            System.out.println("6. íŠ¹ì • ëŒ€ì—¬ê¸°ë¡ ì‚­ì œ");
-            System.out.println("7. ë°˜ë‚©ë‚  / ìŠ¹ì¸ ì¡°íšŒ");
-            System.out.println("8. ì¢…ë£Œ");
-            
-            while (c == 0) { //ìˆ«ìë§Œ ì…ë ¥í•˜ëŠ”ì§€ ì²´í¬.
-    			try {
-    		 		System.out.println("Enter number: ");
-    		 		c = Integer.parseInt(sc.next());
-    	 		}
-    			catch (NumberFormatException e) {
-    			   System.out.println("not a correct number!");
-    			   c = 0;
-    			}
-    		 }
-            
-            
-            switch (c){
-        	case(1):
-        		System.out.println("ëŒ€ì—¬ê¸°ë¡ ALL: ");
-	            ArrayList<Rent_Vo> list1 = r_service.selectAll();
-	            for (Rent_Vo rent : list1) {
-	    			System.out.println(rent);
-	    		}
-        	case(2):
-        		System.out.println("íŠ¹ì • ì±…ì˜ ëŒ€ì—¬ê¸°ë¡ë“¤: ");
-	            ArrayList<Rent_Vo> list2 = r_service.selectByBnum(sc);
-	            for (Rent_Vo rent : list2) {
-	    			System.out.println(rent);
-	    		}
-        	case(3):
-        		System.out.println("ëŒ€ì—¬ê¸°ë¡ ALL: ");
-	            ArrayList<Rent_Vo> list3 = r_service.selectByPid(sc);
-	            for (Rent_Vo rent : list3) {
-	    			System.out.println(rent);
-	    		}
-        	case(4):
-        		System.out.println("ë‹¨ì¼ ëŒ€ì—¬ê¸°ë¡ ì¡°íšŒ: ");
-        		Rent_Vo rent = r_service.selectRentRnum(sc);
-        		System.out.println(rent);
-        	case(5):
-                System.out.println("íŠ¹ì • ëŒ€ì—¬ê¸°ë¡ ìˆ˜ì •");
-        		r_service.updateRent(sc);
-        	case(6):
-                System.out.println("6. íŠ¹ì • ëŒ€ì—¬ê¸°ë¡ ì‚­ì œ");
-        		r_service.deleteRent(sc);
+            System.out.println("Admin ÀÇ Rent°ü¸® ½Ã½ºÅÛ");
+            System.out.println("1. ÀüÃ¼Rent±â·Ï Á¶È¸");
+            System.out.println("2. BookÀÇ ´ë¿©±â·Ïµé Á¶È¸");
+            System.out.println("3. À¯Àú ÇÏ³ªÀÇ ´ë¿©±â·Ïµé Á¶È¸");
+            System.out.println("4. ´ë¿©±â·Ï ´ÜÀÏ Á¶È¸");
+            System.out.println("5. Æ¯Á¤ ´ë¿©±â·Ï ¼öÁ¤");
+            System.out.println("6. Æ¯Á¤ ´ë¿©±â·Ï »èÁ¦");
+            System.out.println("7. ¹İ³³³¯ / ½ÂÀÎ Á¶È¸");
+            System.out.println("8. Á¾·á");
 
-        	case(7):
-                System.out.println("ë°˜ë‚©ìŠ¹ì¸ ëŒ€ê¸°ë„ì„œë“¤ì€ r_return ì— 000ë¥¼ ê°€ì§€ê³  ìˆìŠµë‹ˆë‹¤");
-        		r_service.selectByRreturn(sc);
-
-        	case(8):
-	        	System.out.println("ì¢…ë£Œ í•©ë‹ˆë‹¤");
-	        	flag = false;
-	        	break;
+            while (c == 0) { //¼ıÀÚ¸¸ ÀÔ·ÂÇÏ´ÂÁö Ã¼Å©.
+                try {
+                    System.out.println("Enter number: ");
+                    c = Integer.parseInt(sc.next());
+                } catch (NumberFormatException e) {
+                    System.out.println("not a correct number!");
+                    c = 0;
+                }
             }
-            
-        }
 
+
+            switch (c) {
+                case (1):
+                    System.out.println("´ë¿©±â·Ï ALL: ");
+                    ArrayList<Rent> list1 = rservice.selectAll();
+                    for (Rent rent : list1) {
+                        System.out.println(rent);
+                    }
+                    break;
+                case (2):
+                    System.out.println("Æ¯Á¤ Ã¥ÀÇ ´ë¿©±â·Ïµé: ");
+                    ArrayList<Rent> list2 = rservice.selectByBnum(sc);
+                    for (Rent rent : list2) {
+                        System.out.println(rent);
+                    }
+                    break;
+                case (3):
+                    System.out.println("´ë¿©±â·Ï ALL: ");
+                    ArrayList<Rent> list3 = rservice.selectByPid(sc);
+                    for (Rent rent : list3) {
+                        System.out.println(rent);
+                    }
+                    break;
+                case (4):
+                    System.out.println("´ÜÀÏ ´ë¿©±â·Ï Á¶È¸: ");
+                    Rent rent = rservice.selectRentRnum(sc);
+                    System.out.println(rent);
+                    break;
+                case (5):
+                    System.out.println("Æ¯Á¤ ´ë¿©±â·Ï ¼öÁ¤");
+                    rservice.updateRent(sc);
+                    break;
+                case (6):
+                    System.out.println("6. Æ¯Á¤ ´ë¿©±â·Ï »èÁ¦");
+                    rservice.deleteRent(sc);
+                    break;
+
+                case (7):
+                    System.out.println("¹İ³³½ÂÀÎ ´ë±âµµ¼­µéÀº r_return ¿¡ 000¸¦ °¡Áö°í ÀÖ½À´Ï´Ù");
+                    rservice.selectByRreturn(sc);
+                    break;
+
+                case (8):
+                    System.out.println("Á¾·á ÇÕ´Ï´Ù");
+                    flag = false;
+                    break;
+            }
+
+        }
     }
-    // ì‘ì„±, í™•ì¸, ì‚­ì œ, ìˆ˜ì •, ì „ì²´í™•ì¸, ì¢…ë£Œ
+
+    // ÀÛ¼º, È®ÀÎ, »èÁ¦, ¼öÁ¤, ÀüÃ¼È®ÀÎ, Á¾·á
     public void noticeAdmin(Scanner sc){
         boolean flag = true;
         int c;
         while (flag) {
-            System.out.println("ê²Œì‹œíŒ ê´€ë¦¬");
-            System.out.println(""); // ì„ íƒ ëª©ë¡
+            System.out.println("°Ô½ÃÆÇ °ü¸®");
+            System.out.println("1.Á¶È¸ | 2.Ãß°¡ | 3.¼öÁ¤ | 4.»èÁ¦ | 5.Á¾·á"); // ¼±ÅÃ ¸ñ·Ï
             c = sc.nextInt();
             switch (c){
+                case 1:
+                    nservice.NoticeAll();
+                    break;
+                case 2:
+                    nservice.Noticeinsert(sc);
+                    break;
+                case 3:
+                    nservice.NoticeModify(sc);
+                    break;
+                case 4:
+                    nservice.NoticeDelete(sc);
+                    break;
+                case 5:
+                    flag = false;
+                    break;
 
             }
         }

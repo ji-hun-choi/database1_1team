@@ -3,32 +3,32 @@ package Menu;
 import Service.BookService;
 import Service.NoticeService;
 import Service.PersonService;
-import Service.Rent_Service;
+import Service.RentService;
 
 import java.util.Scanner;
 
 public class PersonMenu {
     private PersonService pservice;
     private BookService bservice;
-    private Rent_Service r_service;
+    private RentService rservice;
     private NoticeService nservice;
 
-    public PersonMenu(PersonService p){
+    public PersonMenu(PersonService p) {
         pservice = p;
         bservice = new BookService();
-        r_service = new RentService();
-        nservice = new NoticeService();
+        rservice = new RentService(pservice.getId());
+        nservice = new NoticeService(pservice.getId());
     }
 
-    public void run(Scanner sc){
+    public void run(Scanner sc) {
         boolean flag = true;
         int c;
         while (flag) {
-            System.out.println("ì‚¬ìš©ì ì‹œìŠ¤í…œ ì…ë‹ˆë‹¤.");
-            System.out.println("1.ë„ì„œì¡°íšŒ | 2.ëŒ€ì—¬ê´€ë¦¬ | 3.ê²Œì‹œíŒì¡°íšŒ | 4.ê°œì¸ì •ë³´ ë³€ê²… " +
-                    " | 5.ê°œì¸ì •ë³´ ì¡°íšŒ | 6.íšŒì›íƒˆí‡´ | 7.ë¡œê·¸ì•„ì›ƒ");
+            System.out.println("»ç¿ëÀÚ ½Ã½ºÅÛ ÀÔ´Ï´Ù.");
+            System.out.println("1.µµ¼­Á¶È¸ | 2.´ë¿©°ü¸® | 3.°Ô½ÃÆÇÁ¶È¸ | 4.°³ÀÎÁ¤º¸ º¯°Ï " +
+                    " | 5.°³ÀÎÁ¤º¸ Á¶È¸ | 6.È¸¿øÅ»Åğ | 7.·Î±×¾Æ¿ô");
             c = sc.nextInt();
-            switch (c){
+            switch (c) {
                 case 1:
                     bookPerson(sc);
                     break;
@@ -56,77 +56,90 @@ public class PersonMenu {
         }
     }
 
-    // ì „ì²´ì¡°íšŒ, ìƒì„¸ì¡°íšŒ, ì¢…ë£Œ  (ë¶ˆí•„ìš”í•˜ë‹¤ ìƒê°ë“œëŠ”ê±´ ë¹¼ì£¼ì„¸ìš”)
+    // ÀüÃ¼Á¶È¸, »ó¼¼Á¶È¸, Á¾·á  (ºÒÇÊ¿äÇÏ´Ù »ı°¢µå´Â°Ç »©ÁÖ¼¼¿ä)
     public void bookPerson(Scanner sc){
         boolean flag = true;
         int c;
         while (flag) {
-            System.out.println("ë„ì„œ ì‹œìŠ¤í…œ");
-            System.out.println(""); // ì„ íƒ ëª©ë¡
+            System.out.println("µµ¼­ ½Ã½ºÅÛ");
+            System.out.println("1.ÀüÃ¼Á¶È¸ | 2.ÀÌ¸§Á¶È¸ | 3.¹øÈ£Á¶È¸ | 4.Á¾·á"); // ¼±ÅÃ ¸ñ·Ï
             c = sc.nextInt();
             switch (c){
-
+                case 1:
+                    bservice.printAll();
+                    break;
+                case 2:
+                    bservice.getBookByName(sc);
+                    break;
+                case 3:
+                    bservice.getBookByNum(sc);
+                    break;
+                case 4:
+                    flag = false;
+                    break;
             }
         }
     }
 
-    // ê¸°ë¡ì¡°íšŒ, ëŒ€ì—¬, ë°˜ë‚©, ì¢…ë£Œ
-    
-    public void rentPerson(Scanner sc){
+
+    // ±â·ÏÁ¶È¸, ´ë¿©, ¹İ³³, Á¾·á
+
+    public void rentPerson(Scanner sc) {
         boolean flag = true;
         int c = 0;
-               
+
         while (flag) {
-            System.out.println("Rent ì¼ë°˜ ì‚¬ìš©ì ì‹œìŠ¤í…œ");
-            System.out.println("1. ì±… ëŒ€ì—¬í•˜ê¸°"); // ì„ íƒ ëª©ë¡
-            System.out.println("2. ë‚´ ëŒ€ì—¬ëª©ë¡");
-            System.out.println("3. ì±… ë°˜ë‚©í•˜ê¸°");
-            System.out.println("4. ì¢…ë£Œ");
-            
-            while (c == 0) { //ìˆ«ìë§Œ ì…ë ¥í•˜ëŠ”ì§€ ì²´í¬.
-    			try {
-    		 		System.out.println("Enter number: ");
-    		 		c = Integer.parseInt(sc.next());
-    	 		}
-    			catch (NumberFormatException e) {
-    			   System.out.println("not a correct number!");
-    			   c = 0;
-    			}
-    		 }
-            
-            
-            switch (c){
-            case(1):
-            	System.out.println("ì±…ì„ ëŒ€ì—¬í•©ë‹ˆë‹¤");
-    			r_service.addRent(sc);    			
-            case(2):
-            	System.out.println("ë‚´ ëŒ€ì—¬ëª©ë¡");
-	            ArrayList<Rent_Vo> list1 = r_service.selectByPidUser("");//@@@@@@@@@@@@@@@@@@@@@@@@@@@@"" ë¥¼ u_idë¡œ ë³€í™˜.
-	    		for (Rent_Vo rent : list1) {
-	    			System.out.println(rent);
-	    		}	
-            case(3):
-            	System.out.println("ì±…ì„ ë°˜ë‚©í•©ë‹ˆë‹¤");
-            	r_service.updateRentUser(sc);
-            case(4):
-            	System.out.println("ì¢…ë£Œ í•©ë‹ˆë‹¤");
-            	flag = false;
-            	break;
+            System.out.println("Rent ÀÏ¹İ »ç¿ëÀÚ ½Ã½ºÅÛ");
+            System.out.println("1. Ã¥ ´ë¿© | 2. ³» ´ë¿©¸ñ·Ï | 3. Ã¥ ¹İ³³ÇÏ±â | 4. Á¾·á"); // ¼±ÅÃ ¸ñ·Ï
+
+            while (c == 0) { //¼ıÀÚ¸¸ ÀÔ·ÂÇÏ´ÂÁö Ã¼Å©.
+                try {
+                    System.out.println("Enter number: ");
+                    c = Integer.parseInt(sc.next());
+                } catch (NumberFormatException e) {
+                    System.out.println("not a correct number!");
+                    c = 0;
+                }
             }
-            
+
+            switch (c) {
+                case (1):
+                    System.out.println("Ã¥À» ´ë¿©ÇÕ´Ï´Ù");
+                    rservice.addRent(sc);
+                    break;
+                case (2):
+                    System.out.println("³» ´ë¿©¸ñ·Ï");
+                    rservice.selectByPidUser();//@@@@@@@@@@@@@@@@@@@@@@@@@@@@"" ¸¦ u_id·Î º¯È¯.
+                    break;
+                case (3):
+                    System.out.println("Ã¥À» ¹İ³³ÇÕ´Ï´Ù");
+                    rservice.updateRentUser(sc);
+                    break;
+                case (4):
+                    System.out.println("Á¾·á ÇÕ´Ï´Ù");
+                    flag = false;
+                    break;
+            }
         }
     }
 
-    // ì „ì²´í™•ì¸
+    // ÀüÃ¼È®ÀÎ
+
+    // ÀüÃ¼È®ÀÎ
     public void noticePerson(Scanner sc){
         boolean flag = true;
         int c;
         while (flag) {
-            System.out.println("ê²Œì‹œíŒ ì‹œìŠ¤í…œ");
-            System.out.println(""); // ì„ íƒ ëª©ë¡
+            System.out.println("°Ô½ÃÆÇ ½Ã½ºÅÛ");
+            System.out.println("1.°Ô½ÃÆÇ È®ÀÎ | 2.Á¾·á"); // ¼±ÅÃ ¸ñ·Ï
             c = sc.nextInt();
             switch (c){
-
+                case 1:
+                    nservice.NoticeAll();
+                    break;
+                case 2:
+                    flag=false;
+                    break;
             }
         }
     }

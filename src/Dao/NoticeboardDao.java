@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class NoticeboardDao {
-		// dbÏó∞Í≤∞ ÌÅ¥ÎûòÏä§
+		// dbø¨∞· ≈¨∑°Ω∫
     private final MysqlConnect dbconn;
     private int num;
     private String title = "";
@@ -35,19 +35,18 @@ public class NoticeboardDao {
     
     public NoticeboardDao() {dbconn = MysqlConnect.getInstance();}
 
-    public void insert(Noticeboard p) { // ÏûëÏÑ±
+    public void insert(Noticeboard p) { // ¿€º∫
         Connection conn = dbconn.getConn();
-
-        String sql = "insert into Noticeboard(num, title, content,p_id) values(?, ?, ?, ?)";
+        String sql = "insert into Noticeboard(num,title, content, p_id) values(?, ?, ?, ?)";
 
         try {
             PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1, p.getNum());
+            pstmt.setInt(1,p.getNum());
             pstmt.setString(2, p.getTitle());
             pstmt.setString(3,p.getContent());
-            pstmt.setString(4,p.getP_id());
+            pstmt.setString(4, p.getP_id());
 
-            pstmt.executeUpdate();
+            int cnt = pstmt.executeUpdate();
         } catch (SQLException e){
             e.printStackTrace();
         } finally {
@@ -59,9 +58,9 @@ public class NoticeboardDao {
         }
     }
 
-    public void modify(Noticeboard p) { //ÏàòÏ†ï
+    public void modify(Noticeboard p) { //ºˆ¡§
         Connection conn = dbconn.getConn();
-        String sql = "update noticeboard set title=?, content=?, where num=?";
+        String sql = "update noticeboard set title=?, content=? where num=?";
 
         try {
             PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -81,10 +80,10 @@ public class NoticeboardDao {
         }
     }
     
-    public ArrayList<Noticeboard> selectAll(){ //Ï†ÑÏ≤¥ÏÑ†ÌÉù
+    public ArrayList<Noticeboard> selectAll(){ //¿¸√ºº±≈√
         Connection conn = dbconn.getConn();
         ResultSet rs;
-        String sql = "select * from Noticeboard order by name";
+        String sql = "select * from Noticeboard order by num";
         ArrayList<Noticeboard> list = new ArrayList<>();
 
         try {
@@ -108,7 +107,7 @@ public class NoticeboardDao {
         return list;
     }
 
-    public void delete(int num) { //ÏÇ≠Ï†ú
+    public void delete(int num) { //ªË¡¶
         
         Connection conn = dbconn.getConn();
       

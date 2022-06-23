@@ -10,7 +10,14 @@ public class Book {
    public Book(){
     }
 
-    public Book(int num, String name, String author, String genre,boolean rent) {
+	public Book(String name, String author, String genre, boolean rent) {
+		this.name = name;
+		this.author = author;
+		this.genre = genre;
+		this.rent = rent;
+	}
+
+	public Book(int num, String name, String author, String genre, boolean rent) {
         this.num =num;
         this.name = name;
         this.author = author;

@@ -3,25 +3,28 @@ package Service;
 import java.util.Scanner;
 import java.util.ArrayList;
 
-import Dao.Rent_Dao;
-import Vo.Rent_Vo;
+import Dao.BookDao;
+import Dao.RentDao;
+import Vo.Rent;
 
 
-public class Rent_Service {
-	private Rent_Dao r_dao;
-	private Rent_Vo r_vo;
+public class RentService {
+	private RentDao rdao;
+	private BookDao bdao; // +Ãß°¡
+	private Rent r_vo; // +Ãß°¡
+	private String id;
 
-	
 
-	
-	public Rent_Service() {
-		r_dao = new Rent_Dao();
+	public RentService(String id) { // +Ãß°¡
+		rdao = new RentDao();
+		bdao = new BookDao(); // +Ãß°¡
+		this.id = id; // +Ãß°¡
 	}
+
 	
-	
-	public void addRent(Scanner sc) { //ë‚´ ì•„ì´ë””ë¡œ ëŒ€ì—¬ë¥¼ í•˜ëŠ” ê²ƒì´ë‹¤. ë‚˜ë¨¸ì§€ ê°’ì€ ì…ë ¥ë°›ì•„ì„œ.
+	public void addRent(Scanner sc) { //³» ¾ÆÀÌµğ·Î ´ë¿©¸¦ ÇÏ´Â °ÍÀÌ´Ù. ³ª¸ÓÁö °ªÀº ÀÔ·Â¹Ş¾Æ¼­.
 		 int b_num = 0;
-		 while (b_num == 0) {//b_num í˜•ì‹ì´ ë§ëŠ”ì§€ í™•ì¸í•˜ëŠ” ë¬¸
+		 while (b_num == 0) {//b_num Çü½ÄÀÌ ¸Â´ÂÁö È®ÀÎÇÏ´Â ¹®
 			try {
 		 		System.out.println("book number: ");
 		 		b_num = Integer.parseInt(sc.next());
@@ -31,9 +34,10 @@ public class Rent_Service {
 			   b_num = 0;
 			}
 		 }
-		 if(true) { // ë§Œì•½ì— b_numìœ¼ë¡œ ì¡°íšŒí•œ ì±…ì˜ ëŒ€ì—¬ìƒíƒœê°€ "ëŒ€ì—¬ê°€ëŠ¥"ì´ë¼ë©´@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ trueë¥¼ bookì˜ rent == falseë¡œ ë°”ê¾¸ê¸°!
-			 int r_num = 0; // r_numì€ auto_increment! ê·¸ëƒ¥ ë‘”ë‹¤
-			 String p_id = "111"; // ì•„ì´ë””ëŠ” ë”°ë¡œ ë°›ì•„ì„œë„£ìœ¼ë©´ ëœë‹¤.@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ loginì—ì„œ ê°€ì ¸ì˜¨ p_idë„£ê¸°!
+		 boolean rent = bdao.rentCheck(b_num); // +Ãß°¡
+		 if(!rent) { //+Ãß°¡// ¸¸¾à¿¡ b_numÀ¸·Î Á¶È¸ÇÑ Ã¥ÀÇ ´ë¿©»óÅÂ°¡ "´ë¿©°¡´É"ÀÌ¶ó¸é@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ true¸¦ bookÀÇ rent == false·Î ¹Ù²Ù±â!
+			 int r_num = 0; // r_numÀº auto_increment! ±×³É µĞ´Ù
+			 String p_id = id; // ¾ÆÀÌµğ´Â µû·Î ¹Ş¾Æ¼­³ÖÀ¸¸é µÈ´Ù.@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ login¿¡¼­ °¡Á®¿Â p_id³Ö±â!
 			 
 			 System.out.println("Enter start day: ");
 			 String start_day = sc.next();
@@ -41,10 +45,10 @@ public class Rent_Service {
 			 sc.nextLine();		 
 			 System.out.println("Enter end day: ");
 			 String end_day = sc.next();
+			 bdao.rentmodify(b_num); // +Ãß°¡
+			 String r_return = "";//¹İ³³³¯Â¥´Â ¾ÆÁ÷ ¾ø´Â°ÍÀÌ ¸ÂÀ½.
 			 
-			 String r_return = "";//ë°˜ë‚©ë‚ ì§œëŠ” ì•„ì§ ì—†ëŠ”ê²ƒì´ ë§ìŒ.
-			 
-			 r_dao.insert(new Rent_Vo(r_num, b_num, p_id, start_day, end_day, r_return));
+			 rdao.insert(new Rent(r_num, b_num, p_id, start_day, end_day, r_return));
 			 return;
 
 		 } else {
@@ -56,12 +60,12 @@ public class Rent_Service {
 		
 	}
 	
-	public void updateRent(Scanner sc) {// r_numìœ¼ë¡œ ì°¾ì•„ì„œ UPDATE í•˜ëŠ” ê²ƒì´ë‹¤.
+	public void updateRent(Scanner sc) {// r_numÀ¸·Î Ã£¾Æ¼­ UPDATE ÇÏ´Â °ÍÀÌ´Ù.
 		int r_num = 0;
 		boolean r_num_flag = false;
 		
-		while (r_num_flag == false) {//r_num ì´ ì¡´ì¬í•˜ë©´ í†µê³¼
-			 while (r_num == 0) {//r_num í˜•ì‹ì´ ë§ëŠ”ì§€ í™•ì¸í•˜ëŠ” ë¬¸
+		while (r_num_flag == false) {//r_num ÀÌ Á¸ÀçÇÏ¸é Åë°ú
+			 while (r_num == 0) {//r_num Çü½ÄÀÌ ¸Â´ÂÁö È®ÀÎÇÏ´Â ¹®
 				try {
 			 		System.out.println("Rent number: ");
 			 		r_num = Integer.parseInt(sc.next());
@@ -72,7 +76,7 @@ public class Rent_Service {
 				}
 			 }
 			 
-			 if (r_dao.select_by_r_num(r_num) != null) {//ê·¸ëŸ° r_numì´ ìˆëŠ”ì§€ í™•ì¸í•˜ëŠ” ë¬¸.
+			 if (rdao.select_by_r_num(r_num) != null) {//±×·± r_numÀÌ ÀÖ´ÂÁö È®ÀÎÇÏ´Â ¹®.
 				 r_num_flag = true;
 			 } else {
 				 System.out.println("no r_num " + r_num);
@@ -80,12 +84,12 @@ public class Rent_Service {
 			 }
 		}
 		 
-		 System.out.println(r_dao.select_by_r_num(r_num));
+		 System.out.println(rdao.select_by_r_num(r_num));
 		 
 		 System.out.println("edit start");
 		 
 		 int b_num = 0;
-		 while (b_num == 0) {//b_num í˜•ì‹ì´ ë§ëŠ”ì§€ í™•ì¸í•˜ëŠ” ë¬¸
+		 while (b_num == 0) {//b_num Çü½ÄÀÌ ¸Â´ÂÁö È®ÀÎÇÏ´Â ¹®
 			try {
 		 		System.out.println("Book number: ");
 		 		b_num = Integer.parseInt(sc.next());
@@ -101,7 +105,7 @@ public class Rent_Service {
 		 boolean p_id_flag = true;
 		 while (p_id_flag) {
 			 p_id = sc.next();
-					 if (true) {//p_id ìˆëŠ”ì§€ í™•ì¸ì°¨@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ trueë¥¼ p_idê°€ ìˆëŠ”ì§€ í™•ì¸í•˜ëŠ” daoë¡œ ë°”ê¾¸ê¸°.
+					 if (true) {//p_id ÀÖ´ÂÁö È®ÀÎÂ÷@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ true¸¦ p_id°¡ ÀÖ´ÂÁö È®ÀÎÇÏ´Â dao·Î ¹Ù²Ù±â.
 						 p_id_flag = false;
 					 } else {
 						 System.out.println("no such p_id as " + p_id);
@@ -116,17 +120,17 @@ public class Rent_Service {
 		 System.out.println("r_return: ");
 		 String r_return = sc.next();		 
 		 
-		r_dao.update(new Rent_Vo(r_num, b_num, p_id, start_day, end_day, r_return));
+		rdao.update(new Rent(r_num, b_num, p_id, start_day, end_day, r_return));
 		
 		return;
 	}
 	
-	public void deleteRent(Scanner sc) {// r_numìœ¼ë¡œ ì°¾ì•„ì„œ delete í•˜ëŠ” ê²ƒì´ë‹¤.
+	public void deleteRent(Scanner sc) {// r_numÀ¸·Î Ã£¾Æ¼­ delete ÇÏ´Â °ÍÀÌ´Ù.
 		int r_num = 0;
 		boolean r_num_flag = false;
 		
-		while (r_num_flag == false) {//r_num ì´ ì¡´ì¬í•˜ë©´ í†µê³¼
-			 while (r_num == 0) {//r_num í˜•ì‹ì´ ë§ëŠ”ì§€ í™•ì¸í•˜ëŠ” ë¬¸
+		while (r_num_flag == false) {//r_num ÀÌ Á¸ÀçÇÏ¸é Åë°ú
+			 while (r_num == 0) {//r_num Çü½ÄÀÌ ¸Â´ÂÁö È®ÀÎÇÏ´Â ¹®
 				try {
 			 		System.out.println("Rent number: ");
 			 		r_num = Integer.parseInt(sc.next());
@@ -137,7 +141,7 @@ public class Rent_Service {
 				}
 			 }
 			 
-			 if (r_dao.select_by_r_num(r_num) != null) {//ê·¸ëŸ° r_numì´ ìˆëŠ”ì§€ í™•ì¸í•˜ëŠ” ë¬¸.
+			 if (rdao.select_by_r_num(r_num) != null) {//±×·± r_numÀÌ ÀÖ´ÂÁö È®ÀÎÇÏ´Â ¹®.
 				 r_num_flag = true;
 			 } else {
 				 System.out.println("no r_num " + r_num);
@@ -145,7 +149,7 @@ public class Rent_Service {
 			 }
 		}
 		 
-		 System.out.println(r_dao.select_by_r_num(r_num));
+		 System.out.println(rdao.select_by_r_num(r_num));
 		 
 		 System.out.println("Delete?");
 		 System.out.println("'1'yes    '2'no ");
@@ -158,7 +162,7 @@ public class Rent_Service {
 				 yn = 0;
 			 }
 			 if (yn == 1) {
-				 r_dao.delete(r_num);
+				 rdao.delete(r_num);
 				 return;
 			 } else if (yn == 2) {
 				 System.out.println("no deletion");
@@ -171,12 +175,12 @@ public class Rent_Service {
 		 return;
 	}
 	
-	public Rent_Vo selectRentRnum(Scanner sc) {
+	public Rent selectRentRnum(Scanner sc) {
 		int r_num = 0;
 		boolean r_num_flag = false;
 		
-		while (r_num_flag == false) {//r_num ì´ ì¡´ì¬í•˜ë©´ í†µê³¼
-			 while (r_num == 0) {//r_num í˜•ì‹ì´ ë§ëŠ”ì§€ í™•ì¸í•˜ëŠ” ë¬¸
+		while (r_num_flag == false) {//r_num ÀÌ Á¸ÀçÇÏ¸é Åë°ú
+			 while (r_num == 0) {//r_num Çü½ÄÀÌ ¸Â´ÂÁö È®ÀÎÇÏ´Â ¹®
 				try {
 			 		System.out.println("Rent number: ");
 			 		r_num = Integer.parseInt(sc.next());
@@ -187,7 +191,7 @@ public class Rent_Service {
 				}
 			 }
 			 
-			 if (r_dao.select_by_r_num(r_num) != null) {//ê·¸ëŸ° r_numì´ ìˆëŠ”ì§€ í™•ì¸í•˜ëŠ” ë¬¸.
+			 if (rdao.select_by_r_num(r_num) != null) {//±×·± r_numÀÌ ÀÖ´ÂÁö È®ÀÎÇÏ´Â ¹®.
 				 r_num_flag = true;
 			 } else {
 				 System.out.println("no r_num " + r_num);
@@ -195,23 +199,23 @@ public class Rent_Service {
 			 }
 		}
 		 
-		r_vo = r_dao.select_by_r_num(r_num);
+		r_vo = rdao.select_by_r_num(r_num);
 				
 		return r_vo;
 	}
 
-	public ArrayList<Rent_Vo> selectAll() {
-		ArrayList<Rent_Vo> list = null;
-		list = r_dao.selectAll();
+	public ArrayList<Rent> selectAll() {
+		ArrayList<Rent> list = null;
+		list = rdao.selectAll();
 		
 		return(list); 
 	}
 	
-	public ArrayList<Rent_Vo> selectByBnum(Scanner sc) {
-		ArrayList<Rent_Vo> list = null;
+	public ArrayList<Rent> selectByBnum(Scanner sc) {
+		ArrayList<Rent> list = null;
 		
 		int b_num = 0;
-			 while (b_num == 0) {//r_num í˜•ì‹ì´ ë§ëŠ”ì§€ í™•ì¸í•˜ëŠ” ë¬¸
+			 while (b_num == 0) {//r_num Çü½ÄÀÌ ¸Â´ÂÁö È®ÀÎÇÏ´Â ¹®
 				try {
 			 		System.out.println("Book number: ");
 			 		b_num = Integer.parseInt(sc.next());
@@ -220,34 +224,35 @@ public class Rent_Service {
 				   System.out.println("not a correct number!");
 				   b_num = 0;
 				}
-				
-		list = r_dao.select_by_b_num(b_num);		
-	}
-	return(list); 
+			}
+		list = rdao.select_by_b_num(b_num);
+	return list;
 	}
 	
-	public ArrayList<Rent_Vo> selectByPid(Scanner sc) {
-		ArrayList<Rent_Vo> list = null;
+	public ArrayList<Rent> selectByPid(Scanner sc) {
+		ArrayList<Rent> list = null;
 		
 		System.out.println("Enter p_id: ");
 		String p_id = sc.next();
-		list = r_dao.select_by_p_id(p_id);		
+		list = rdao.select_by_p_id(p_id);
 	
 	return(list); 
 	}
 	
-	public ArrayList<Rent_Vo> selectByPidUser(String p_id) {
-		ArrayList<Rent_Vo> list = null;
-		list = r_dao.select_by_p_id(p_id);		
-	return(list); 
+	public void selectByPidUser() {
+		ArrayList<Rent> list = rdao.select_by_p_id(id);
+		for (Rent r : list){
+			System.out.println(r);
+		}
+
 	}
 	
-	public void updateRentUser(Scanner sc) {// r_numìœ¼ë¡œ ì°¾ì•„ì„œ UPDATE í•˜ëŠ” ê²ƒì´ë‹¤.
+	public void updateRentUser(Scanner sc) {// r_numÀ¸·Î Ã£¾Æ¼­ UPDATE ÇÏ´Â °ÍÀÌ´Ù.
 		int r_num = 0;
 		boolean r_num_flag = false;
 		
-		while (r_num_flag == false) {//r_num ì´ ì¡´ì¬í•˜ë©´ í†µê³¼
-			 while (r_num == 0) {//r_num í˜•ì‹ì´ ë§ëŠ”ì§€ í™•ì¸í•˜ëŠ” ë¬¸
+		while (r_num_flag == false) {//r_num ÀÌ Á¸ÀçÇÏ¸é Åë°ú
+			 while (r_num == 0) {//r_num Çü½ÄÀÌ ¸Â´ÂÁö È®ÀÎÇÏ´Â ¹®
 				try {
 			 		System.out.println("Rent number: ");
 			 		r_num = Integer.parseInt(sc.next());
@@ -258,41 +263,37 @@ public class Rent_Service {
 				}
 			 }
 			 
-			 if (r_dao.select_by_r_num(r_num) != null) {//ê·¸ëŸ° r_numì´ ìˆëŠ”ì§€ í™•ì¸í•˜ëŠ” ë¬¸.
+			 if (rdao.select_by_r_num(r_num) != null) {//±×·± r_numÀÌ ÀÖ´ÂÁö È®ÀÎÇÏ´Â ¹®.
 				 r_num_flag = true;
 			 } else {
 				 System.out.println("no r_num " + r_num);
 				 r_num = 0;
 			 }
 		}
-		r_vo = r_dao.select_by_r_num(r_num);
+		r_vo = rdao.select_by_r_num(r_num);
 		
-		if(r_vo.getP_id() == "@@") {//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ p_id ê°€ ê°™ì•„ì„œ ìê¸°ê²ƒì¸ì§€ë¥¼ í™•ì¸
+		if(r_vo.getP_id() == id) {//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ p_id °¡ °°¾Æ¼­ ÀÚ±â°ÍÀÎÁö¸¦ È®ÀÎ
 			int b_num = r_vo.getB_num();
 			String p_id = r_vo.getP_id();
 			String start_day = r_vo.getStart_day();
 			String end_day = r_vo.getEnd_day();
-			String r_return = "000"; // "000" ì´ ë°˜ë‚©ìŠ¹ì¸ ì „ ë‹¨ê³„ë¼ëŠ” ê²ƒ ì•”ì‹œ.
+			String r_return = "000"; // "000" ÀÌ ¹İ³³½ÂÀÎ Àü ´Ü°è¶ó´Â °Í ¾Ï½Ã.
 			
-			r_dao.update(new Rent_Vo(r_num, b_num, p_id, start_day, end_day, r_return));
+			rdao.update(new Rent(r_num, b_num, p_id, start_day, end_day, r_return));
 		} else {
-			System.out.println("ë³¸ì¸ì´ ë¹Œë¦° ì±…ë§Œ ë°˜ë‚©ì´ ê°€ëŠ¥í•©ë‹ˆë‹¤.");
+			System.out.println("º»ÀÎÀÌ ºô¸° Ã¥¸¸ ¹İ³³ÀÌ °¡´ÉÇÕ´Ï´Ù.");
 		}
-		
-		
-		 
-		
 		return;
 	}
 	
 	
 	
-	public ArrayList<Rent_Vo> selectByRreturn(Scanner sc) {
-		ArrayList<Rent_Vo> list = null;
+	public ArrayList<Rent> selectByRreturn(Scanner sc) {
+		ArrayList<Rent> list = null;
 		
 		System.out.println("Enter r_return: ");
 		String r_return = sc.next();
-		list = r_dao.select_by_r_return(r_return);		
+		list = rdao.select_by_r_return(r_return);
 	
 	return(list); 
 	}
