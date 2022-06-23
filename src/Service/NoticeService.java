@@ -8,11 +8,11 @@ import java.util.Scanner;
 
 public class NoticeService {
 	private static int num;
-	// 게시글제목
+	
 	private static String title;
-	// 게시글내용
+	
 	private static String content;
-	// 작성자ID
+	
 	private static String p_id;
 	
     public static void setNum(int num) {
