@@ -10,27 +10,29 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class BookDao {
+	private final MysqlConnect dbconn;
+
+	public BookDao() {
+		dbconn = MysqlConnect.getInstance();
+	}
+
 
 	// 도서 목록 전체 조회
-	public List<Book> bookSelectAll(Connection conn) {
+	public ArrayList<Book> bookSelectAll() {
 		String query = "SELECT * FROM Book";
-		Statement stmt = null;
-		ResultSet rs = null;
-		List<Book> bookList = new ArrayList<>();
+		Connection conn = dbconn.getConn();
+		ResultSet rs ;
+		ArrayList<Book> bookList = new ArrayList<>();
 		
 		try {
-			Connection conn = dbconn.getConn();
-			stmt = conn.createStatement();
-			
-			
-			
-			rs = stmt.executeQuery(query);
+			PreparedStatement pstmt = conn.prepareStatement(query);
+			rs = pstmt.executeQuery(query);
 			while(rs.next()) {
 				int num = rs.getInt("num");
 				String name = rs.getString("name");
 				String author = rs.getString("author");
 				String genre = rs.getString("genre");
-				String rent = rs.getboolean("rent");
+				boolean rent = rs.getBoolean("rent");
 				
 				Book book = new Book(num, name, author, genre, rent);
 				
@@ -40,75 +42,80 @@ public class BookDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			close(rs);
-			close(stmt);
+			try {
+				conn.close();
+			} catch (SQLException e){
+				e.printStackTrace();
+			}
 		}
 		
 		return bookList;
 	}
 
 	// 도서 추가 
-	public int bookInsert(Book b) {
+	public void insert(Book b) {
+		Connection conn = dbconn.getConn();
 		String query = "INSERT INTO Book "
 				     + "VALUES(BOOK_SEQ.NEXTVAL, ?, ?, ?, TO_DATE(?, 'RRRR/MM/DD'), ?)";
-		PreparedStatement pstmt = null;
 		int result = 0;
 		
 		try {
-			pstmt = conn.prepareStatement(query);
+			PreparedStatement pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, b.getname());
 			pstmt.setString(2, b.getauthor());
 			pstmt.setString(3, b.getgenre());
-			pstmt.setSboolean(4, b.getrent());
-	
-			
-			result = pstmt.executeUpdate();
+			pstmt.setBoolean(4, b.getrent());
+
+			pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			close(pstmt);
+			try {
+				conn.close();
+			} catch (SQLException e){
+				e.printStackTrace();
+			}
 		}
-		
-		return result;
 	}
 
-	public int bookDelete(int num) {
+	public void bookDelete(int num) {
+		Connection conn = dbconn.getConn();
 		String query = "DELETE FROM Book "
 				     + "WHERE NUM = ?";
-		PreparedStatement pstmt = null;
 		int result = 0;
 		
 		try {
-			pstmt = conn.prepareStatement(query);
+			PreparedStatement pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, num);
 			
-			result = pstmt.executeUpdate();
+			pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			close(pstmt);
+			try {
+				conn.close();
+			} catch (SQLException e){
+				e.printStackTrace();
+			}
 		}
-		
-		
-		return result;
 	}
 
 	// 2. 도서 정보 수정
-	public int bookUpdate( Book book) {
+	public int update(Book book) {
+		Connection conn = dbconn.getConn();
 		String query = "UPDATE BOOK "
 				     + "SET NAME = ?, AUTHOR = ?, GENRE = ?, RENT = ?"
 				     + "WHERE num = ?";
-		PreparedStatement pstmt = null;
 		int result = 0;
 		
 		try {
-			pstmt = conn.prepareStatement(query);
+			PreparedStatement pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, book.getname());
 			pstmt.setString(2, book.getauthor());
 			pstmt.setString(3, book.getgenre());
-			pstmt.setString(4, book.getrent());
+			pstmt.setBoolean(4, book.getrent());
 			pstmt.setInt(5, book.getnum());
 			
 			result = pstmt.executeUpdate();
@@ -116,79 +123,79 @@ public class BookDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			close(pstmt);
+			try {
+				conn.close();
+			} catch (SQLException e){
+				e.printStackTrace();
+			}
 		}
 		
 		return result;
 	}
 
 	// 3. 도서 아이디로 조회
-	public Book bookSelectId(int num) {
+	public Book selectNum(int num) {
+		Connection conn = dbconn.getConn();
 		String query = "SELECT * FROM BOOK "
 				     + "WHERE NUM = ?";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
+		ResultSet rs;
 		Book book = null;
 	
 		try {
-			pstmt = conn.prepareStatement(query);
+			PreparedStatement pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, num);
 			
 			rs = pstmt.executeQuery();
 			
-			while(rs.next()) {
+			if(rs.next()) {
 				book = new Book(rs.getInt("NUM"),
 								rs.getString("NAME"),
 								rs.getString("AUTHOR"),
 								rs.getString("GENRE"),
-								rs.getString("RENT"),
-
+								rs.getBoolean("RENT"));
 			}
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			close(rs);
-			close(pstmt);
+			try {
+				conn.close();
+			} catch (SQLException e){
+				e.printStackTrace();
+			}
 		}
 		
 		return book;
 	}
 
 	// 4. 도서 제목으로 조회
-	public List<Book> bookSelectTitle(String bookTitle) {
+	public Book selectTitle(String bookTitle) {
+		Connection conn = dbconn.getConn();
 		String query = "SELECT * FROM BOOK "
-				     + "WHERE NAME LIKE ('%' || ? || '%')";
-		
-		PreparedStatement pstmt = null;
+				     + "WHERE title = ?";
+		Book b = null;
 		ResultSet rs = null;
-		List<Book> listBook = new ArrayList<>();
 		
 		try {
-			pstmt = conn.prepareStatement(query);
+			PreparedStatement pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, bookTitle);
 			
 			rs = pstmt.executeQuery();
-			while(rs.next()) {
-				Book b = new Book();
-				b.setnum(rs.getInt("NUM"));
-				b.setTitle(rs.getString("NAME"));
-				b.setAuthor(rs.getString("AUTHOR"));
-				b.setPublisher(rs.getString("GENRE"));
-				b.setPublisher(rs.getboolean("RENT"));
-		
-				
-				listBook.add(b);
+			if(rs.next()){
+				b = new Book(rs.getInt(1), rs.getString(2), rs.getString(3),
+						rs.getString(4),rs.getBoolean(5));
 			}
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			close(rs);
-			close(pstmt);
+			try {
+				conn.close();
+			} catch (SQLException e){
+				e.printStackTrace();
+			}
 		}
 		
-		return listBook;
+		return b;
 	}
 
 }
