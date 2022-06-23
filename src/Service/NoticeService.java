@@ -1,4 +1,101 @@
 package Service;
 
+import Dao.NoticeboardDao;
+import Vo.Noticeboard;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
 public class NoticeService {
+	private static int num;
+	// 게시글제목
+	private static String title;
+	// 게시글내용
+	private static String content;
+	// 작성자ID
+	private static String p_id;
+	
+    public static void setNum(int num) {
+        NoticeService.num = num;
+    }
+
+    public static void setTitle(String title) {
+        NoticeService.title = title;
+    }
+
+    public static void setContent(String content) {
+        NoticeService.content = content;
+    }
+    
+    public static void setP_id(String p_id) {
+        NoticeService.p_id = p_id;
+    }
+    
+    public static int getNum() {
+        return num;
+    }
+
+    public static String getTitle() {
+        return title;
+    }
+    
+    public static String getContent() {
+        return content;
+    }
+    
+    public static String getP_id() {
+        return p_id;
+    }
+
+    NoticeboardDao dao ;
+    public NoticeService() {
+        dao = new NoticeboardDao();
+    }
+
+    public void Noticeinsert(Scanner sc) {
+        System.out.println("게시글작성");
+        System.out.print("게시글번호:");
+        int num = sc.nextInt();
+        System.out.print("제목:");
+        String title = sc.next();
+        System.out.print("내용:");
+        String content = sc.next();
+        System.out.print("아이디:");
+        String p_id = sc.next();
+        dao.insert(new Noticeboard(num,title, content,p_id));
+    }
+
+    public void NoticeModify(Scanner sc) {
+        System.out.println("게시글 수정");
+        System.out.println("게시글 번호 수정");
+        int num = sc.nextInt();
+        System.out.println("제목 수정");
+        String title = sc.next();
+        System.out.print("내용");
+        String content = sc.next();
+        System.out.print("아이디");
+        String p_id = sc.next();
+
+        dao.modify(new Noticeboard(num,title, content,p_id));
+    }
+    
+     public void NoticeDelete(Scanner sc) {
+         System.out.println("게시글 삭제");
+         System.out.print("정말로 삭제 하시겠습니까? Y or N");
+         String choice = sc.next().toUpperCase();
+
+         if (choice.equals("Y")){
+             dao.delete(num);
+             System.out.println("삭제 되었습니다.");
+         } else {
+                System.out.println("취소 하였습니다.");
+    }
+   }
+         
+         public void NoticeAll(Scanner sc){
+             ArrayList<Noticeboard> list = dao.selectAll();
+             for (Noticeboard l : list){
+                 System.out.println(l);
+  }
+ }
 }
