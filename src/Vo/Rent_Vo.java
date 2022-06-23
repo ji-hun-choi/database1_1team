@@ -58,9 +58,12 @@ public class Rent_Vo {
 	}
 
 	public Rent_Vo() {
-		
 	}
-	
+
+	public Rent_Vo(int r_num) {
+		this.r_num = r_num;
+	}
+
 	public Rent_Vo(int r_num, int b_nun, String p_id, String start_day, String end_day, String r_return) {
 		super();
 		this.r_num = r_num;
