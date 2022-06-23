@@ -48,53 +48,49 @@ public class NoticeService {
     }
 
     NoticeboardDao dao ;
-    public NoticeService() {
+
+    public NoticeService(String id){
         dao = new NoticeboardDao();
+        setP_id(id);
     }
 
     public void Noticeinsert(Scanner sc) {
-        System.out.println("ê²Œì‹œê¸€ì‘ì„±");
-        System.out.print("ê²Œì‹œê¸€ë²ˆí˜¸:");
-        int num = sc.nextInt();
-        System.out.print("ì œëª©:");
+        System.out.println("°Ô½Ã±ÛÀÛ¼º");
+        System.out.print("Á¦¸ñ:");
         String title = sc.next();
-        System.out.print("ë‚´ìš©:");
+        System.out.print("³»¿ë:");
         String content = sc.next();
-        System.out.print("ì•„ì´ë””:");
-        String p_id = sc.next();
-        dao.insert(new Noticeboard(num,title, content,p_id));
+        String p_id = getP_id();
+        dao.insert(new Noticeboard(0,title, content,p_id));
     }
 
     public void NoticeModify(Scanner sc) {
-        System.out.println("ìˆ˜ì •í•  ê²Œì‹œê¸€ ë²ˆí˜¸ì„ íƒ");
-        System.out.println("ê²Œì‹œê¸€ ë²ˆí˜¸ ìˆ˜ì •");
+        System.out.println("¼öÁ¤ÇÒ °Ô½Ã±Û ¹øÈ£¼±ÅÃ");
         int num = sc.nextInt();
-        System.out.println("ì œëª© ìˆ˜ì •");
+        System.out.println("Á¦¸ñ ¼öÁ¤");
         String title = sc.next();
-        System.out.print("ë‚´ìš© ìˆ˜ì •");
+        System.out.print("³»¿ë ¼öÁ¤");
         String content = sc.next();
-        System.out.print("ì•„ì´ë”” ìˆ˜ì •");
-        String p_id = sc.next();
 
-        dao.modify(new Noticeboard(num,title, content,p_id));
+        dao.modify(new Noticeboard(num, title, content));
     }
     
      public void NoticeDelete(Scanner sc) {
-         System.out.println("ê²Œì‹œê¸€ ì‚­ì œ");
-	 System.out.println("ì‚­ì œí•  ê²Œì‹œê¸€ë²ˆí˜¸ì…ë ¥");
+         System.out.println("°Ô½Ã±Û »èÁ¦");
+	    System.out.println("»èÁ¦ÇÒ °Ô½Ã±Û¹øÈ£ÀÔ·Â");
          int num = sc.nextInt();
-         System.out.print("ì •ë§ë¡œ ì‚­ì œ í•˜ì‹œê² ìŠµë‹ˆê¹Œ? Y or N");
+         System.out.print("Á¤¸»·Î »èÁ¦ ÇÏ½Ã°Ú½À´Ï±î? Y or N");
          String choice = sc.next().toUpperCase();
 
          if (choice.equals("Y")){
              dao.delete(num);
-             System.out.println("ì‚­ì œ ë˜ì—ˆìŠµë‹ˆë‹¤.");
+             System.out.println("»èÁ¦ µÇ¾ú½À´Ï´Ù.");
          } else {
-                System.out.println("ì·¨ì†Œ í•˜ì˜€ìŠµë‹ˆë‹¤.");
+                System.out.println("Ãë¼Ò ÇÏ¿´½À´Ï´Ù.");
     }
    }
          
-         public void NoticeAll(Scanner sc){
+         public void NoticeAll(){
              ArrayList<Noticeboard> list = dao.selectAll();
              for (Noticeboard l : list){
                  System.out.println(l);

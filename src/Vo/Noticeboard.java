@@ -1,23 +1,25 @@
 package Vo;
 
 public class Noticeboard {
-		// ê²Œì‹œê¸€ë²ˆí˜¸
+		// °Ô½Ã±Û¹øÈ£
 		private int num;
-		// ê²Œì‹œê¸€ì œëª©
+		// °Ô½Ã±ÛÁ¦¸ñ
 		private String title;
-		// ê²Œì‹œê¸€ë‚´ìš©
+		// °Ô½Ã±Û³»¿ë
 		private String content;
-		// ì‘ì„±ìID
+
+	public Noticeboard(int num, String title, String content) {
+		this.num = num;
+		this.title = title;
+		this.content = content;
+	}
+
+	// ÀÛ¼ºÀÚID
 		private String p_id;
 		
 		public Noticeboard() {	
 		}
 
-		public Noticeboard(int num, String title, String content) {
-		    this.num = num;
-		    this.title = title;
-		    this.content = content;
-		} //ì¶”ê°€
 	
 		public Noticeboard(int num, String title, String content, String p_id) {
 		    this.num = num;
@@ -26,7 +28,9 @@ public class Noticeboard {
 		    this.p_id = p_id;
 		}
 
-		public int getNum() {
+
+
+	public int getNum() {
 		    return num;
 		}
 
@@ -59,9 +63,9 @@ public class Noticeboard {
 		}
 		
 		public String toString() {
-		    return " ê²Œì‹œê¸€ ë²ˆí˜¸ : "+this.num+ 
-		    		" / ì œëª© : " +this.title +
-		    		" / ë‚´ìš© : " + this.content + 
+		    return " °Ô½Ã±Û ¹øÈ£ : "+this.num+ 
+		    		" / Á¦¸ñ : " +this.title +
+		    		" / ³»¿ë : " + this.content + 
 		    		" / ID : " + this.p_id;
 		} 
 	}

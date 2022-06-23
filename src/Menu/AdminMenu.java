@@ -4,7 +4,7 @@ import Service.BookService;
 import Service.NoticeService;
 import Service.PersonService;
 import Service.RentService;
-import Vo.RentVo;
+import Vo.Rent;
 //import Service.RentService;
 
 import java.util.ArrayList;
@@ -19,6 +19,9 @@ public class AdminMenu {
 
     public AdminMenu(PersonService p){
         pservice = p;
+        bservice = new BookService();
+        rservice = new RentService(p.getId());
+        nservice = new NoticeService(p.getId());
     }
     public void run(Scanner sc){
         boolean flag = true;
@@ -123,36 +126,43 @@ public class AdminMenu {
             switch (c) {
                 case (1):
                     System.out.println("대여기록 ALL: ");
-                    ArrayList<RentVo> list1 = rservice.selectAll();
-                    for (RentVo rent : list1) {
+                    ArrayList<Rent> list1 = rservice.selectAll();
+                    for (Rent rent : list1) {
                         System.out.println(rent);
                     }
+                    break;
                 case (2):
                     System.out.println("특정 책의 대여기록들: ");
-                    ArrayList<RentVo> list2 = rservice.selectByBnum(sc);
-                    for (RentVo rent : list2) {
+                    ArrayList<Rent> list2 = rservice.selectByBnum(sc);
+                    for (Rent rent : list2) {
                         System.out.println(rent);
                     }
+                    break;
                 case (3):
                     System.out.println("대여기록 ALL: ");
-                    ArrayList<RentVo> list3 = rservice.selectByPid(sc);
-                    for (RentVo rent : list3) {
+                    ArrayList<Rent> list3 = rservice.selectByPid(sc);
+                    for (Rent rent : list3) {
                         System.out.println(rent);
                     }
+                    break;
                 case (4):
                     System.out.println("단일 대여기록 조회: ");
-                    RentVo rent = rservice.selectRentRnum(sc);
+                    Rent rent = rservice.selectRentRnum(sc);
                     System.out.println(rent);
+                    break;
                 case (5):
                     System.out.println("특정 대여기록 수정");
                     rservice.updateRent(sc);
+                    break;
                 case (6):
                     System.out.println("6. 특정 대여기록 삭제");
                     rservice.deleteRent(sc);
+                    break;
 
                 case (7):
                     System.out.println("반납승인 대기도서들은 r_return 에 000를 가지고 있습니다");
                     rservice.selectByRreturn(sc);
+                    break;
 
                 case (8):
                     System.out.println("종료 합니다");
@@ -169,9 +179,24 @@ public class AdminMenu {
         int c;
         while (flag) {
             System.out.println("게시판 관리");
-            System.out.println(""); // 선택 목록
+            System.out.println("1.조회 | 2.추가 | 3.수정 | 4.삭제 | 5.종료"); // 선택 목록
             c = sc.nextInt();
             switch (c){
+                case 1:
+                    nservice.NoticeAll();
+                    break;
+                case 2:
+                    nservice.Noticeinsert(sc);
+                    break;
+                case 3:
+                    nservice.NoticeModify(sc);
+                    break;
+                case 4:
+                    nservice.NoticeDelete(sc);
+                    break;
+                case 5:
+                    flag = false;
+                    break;
 
             }
         }

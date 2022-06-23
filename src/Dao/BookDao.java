@@ -17,7 +17,7 @@ public class BookDao {
 	}
 
 
-	// ÎèÑÏÑú Î™©Î°ù Ï†ÑÏ≤¥ Ï°∞Ìöå
+	// µµº≠ ∏Ò∑œ ¿¸√º ¡∂»∏
 	public ArrayList<Book> bookSelectAll() {
 		String query = "SELECT * FROM Book";
 		Connection conn = dbconn.getConn();
@@ -52,7 +52,7 @@ public class BookDao {
 		return bookList;
 	}
 
-	// ÎèÑÏÑú Ï∂îÍ∞Ä 
+	// µµº≠ √ﬂ∞° 
 	public void insert(Book b) {
 		Connection conn = dbconn.getConn();
 		String query = "INSERT INTO Book(bname, author, genre,rent) " +
@@ -102,7 +102,7 @@ public class BookDao {
 		}
 	}
 
-	// 2. ÎèÑÏÑú Ï†ïÎ≥¥ ÏàòÏ†ï
+	// 2. µµº≠ ¡§∫∏ ºˆ¡§
 	public int update(Book book) {
 		Connection conn = dbconn.getConn();
 		String query = "update book set bname = ?, author = ?, genre = ?, rent = ? where num = ?";
@@ -131,7 +131,7 @@ public class BookDao {
 		return result;
 	}
 
-	// 3. ÎèÑÏÑú ÏïÑÏù¥ÎîîÎ°ú Ï°∞Ìöå
+	// 3. µµº≠ æ∆¿Ãµ∑Œ ¡∂»∏
 	public Book selectNum(int num) {
 		Connection conn = dbconn.getConn();
 		String query = "SELECT * FROM BOOK "
@@ -166,7 +166,7 @@ public class BookDao {
 		return book;
 	}
 
-	// 4. ÎèÑÏÑú Ï†úÎ™©ÏúºÎ°ú Ï°∞Ìöå
+	// 4. µµº≠ ¡¶∏Ò¿∏∑Œ ¡∂»∏
 	public Book selectName(String bookName) {
 		Connection conn = dbconn.getConn();
 		String query = "SELECT * FROM BOOK "
@@ -194,5 +194,49 @@ public class BookDao {
 		}
 		return b;
 	}
+	public boolean rentCheck(int b_num) {
+		Connection conn = dbconn.getConn();
+		ResultSet rs;
+		String query = "select rent from book where num = ?";
+		boolean t = false;
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, b_num);
 
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				t = rs.getBoolean(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return t;
+	}
+
+	public void rentmodify(int b_num) {
+		Connection conn = dbconn.getConn();
+		ResultSet rs;
+		String query = "update book set rent = ? where num=?";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(query);
+			pstmt.setBoolean(1,true);
+			pstmt.setInt(2, b_num);
+
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }

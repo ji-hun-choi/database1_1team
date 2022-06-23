@@ -4,9 +4,7 @@ import Service.BookService;
 import Service.NoticeService;
 import Service.PersonService;
 import Service.RentService;
-import Vo.RentVo;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class PersonMenu {
@@ -18,8 +16,8 @@ public class PersonMenu {
     public PersonMenu(PersonService p) {
         pservice = p;
         bservice = new BookService();
-//        rservice = new RentService();
-        nservice = new NoticeService();
+        rservice = new RentService(pservice.getId());
+        nservice = new NoticeService(pservice.getId());
     }
 
     public void run(Scanner sc) {
@@ -92,10 +90,7 @@ public class PersonMenu {
 
         while (flag) {
             System.out.println("Rent 일반 사용자 시스템");
-            System.out.println("1. 책 대여하기"); // 선택 목록
-            System.out.println("2. 내 대여목록");
-            System.out.println("3. 책 반납하기");
-            System.out.println("4. 종료");
+            System.out.println("1. 책 대여 | 2. 내 대여목록 | 3. 책 반납하기 | 4. 종료"); // 선택 목록
 
             while (c == 0) { //숫자만 입력하는지 체크.
                 try {
@@ -111,15 +106,15 @@ public class PersonMenu {
                 case (1):
                     System.out.println("책을 대여합니다");
                     rservice.addRent(sc);
+                    break;
                 case (2):
                     System.out.println("내 대여목록");
-                    ArrayList<RentVo> list1 = rservice.selectByPidUser("");//@@@@@@@@@@@@@@@@@@@@@@@@@@@@"" 를 u_id로 변환.
-                    for (RentVo rent : list1) {
-                        System.out.println(rent);
-                    }
+                    rservice.selectByPidUser();//@@@@@@@@@@@@@@@@@@@@@@@@@@@@"" 를 u_id로 변환.
+                    break;
                 case (3):
                     System.out.println("책을 반납합니다");
                     rservice.updateRentUser(sc);
+                    break;
                 case (4):
                     System.out.println("종료 합니다");
                     flag = false;
@@ -136,10 +131,15 @@ public class PersonMenu {
         int c;
         while (flag) {
             System.out.println("게시판 시스템");
-            System.out.println(""); // 선택 목록
+            System.out.println("1.게시판 확인 | 2.종료"); // 선택 목록
             c = sc.nextInt();
             switch (c){
-
+                case 1:
+                    nservice.NoticeAll();
+                    break;
+                case 2:
+                    flag=false;
+                    break;
             }
         }
     }
