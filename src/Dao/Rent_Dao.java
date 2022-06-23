@@ -1,20 +1,18 @@
-package Dao;
+package project_t1;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
+
+import Vo.Rent_Vo
 
 import conn.MysqlConnect;
-import Vo.Rent_Vo;
 
 public class Rent_Dao {
 	private MysqlConnect myconn;
-	
-	//Connection conn = myconn.getConn(); control_C + control_V
-	
+		
 	public Rent_Dao() {
 		myconn = MysqlConnect.getInstance();
 	}
@@ -80,7 +78,7 @@ public class Rent_Dao {
 	//-------------------------------
 	public Rent_Vo select_by_r_num(int r_num) {// r_num 기준 검색
 		ResultSet rs;
-		Rent_Vo r = null;
+		Rent_Vo r = null; 
 
 		Connection conn = myconn.getConn();
 
@@ -138,11 +136,50 @@ public class Rent_Dao {
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
+				list.add(new Rent_Vo(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6)));
 				while (rs.next()) {
 					list.add(new Rent_Vo(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6)));
 				}
 			}else {
 				System.out.println("no rent found by " + p_id);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return list;
+	}
+	
+	public ArrayList<Rent_Vo> select_by_r_return(String r_return) {// r_return 기준 검색
+		ResultSet rs = null;
+		ArrayList<Rent_Vo> list = new ArrayList<Rent_Vo>();
+
+		Connection conn = myconn.getConn();
+
+		String sql = "select * from rent where r_return=? order by r_num";
+		
+
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, r_return);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				list.add(new Rent_Vo(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6)));
+				while (rs.next()) {
+					list.add(new Rent_Vo(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6)));
+				}
+			}else {
+				System.out.println("no rent of r_return " + r_return);
 			}
 
 		} catch (SQLException e) {
@@ -176,6 +213,7 @@ public class Rent_Dao {
 			rs = pstmt.executeQuery();
 
 			if(rs.next()) {
+				list.add(new Rent_Vo(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6)));
 				while (rs.next()) {
 					list.add(new Rent_Vo(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6)));
 				}
@@ -228,35 +266,6 @@ public class Rent_Dao {
 
 	}
 
-	public ArrayList<Rent_Vo> searchPid(String id){
-		Connection conn = myconn.getConn();
-		ResultSet rs;
-		ArrayList<Rent_Vo> list = new ArrayList<>();
-		String sql = "select r_num from person inner join rent where id = ?";
-
-		try {
-			PreparedStatement pstmt = conn.prepareStatement(sql);
-
-			pstmt.setString(1, id);
-
-			rs = pstmt.executeQuery();
-			while (rs.next()){
-				list.add(new Rent_Vo(rs.getInt(1)));
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			try {
-				conn.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		return list;
-	}
-
 	//----------------------------------
 	public void delete(int r_num) { //r_num 기준 삭제.
 
@@ -286,6 +295,34 @@ public class Rent_Dao {
 		}
 	}
 
-	
+	//-------------------------추후추가됨
+	public ArrayList<Rent_Vo> searchPid(String id){
+		Connection conn = myconn.getConn();
+		ResultSet rs;
+		ArrayList<Rent_Vo> list = new ArrayList<>();
+		String sql = "select r_num from person inner join rent where id = ?";
+
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+
+			pstmt.setString(1, id);
+
+			rs = pstmt.executeQuery();
+			while (rs.next()){
+				list.add(new Rent_Vo(rs.getInt(1)));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return list;
+	}
 	
 }
