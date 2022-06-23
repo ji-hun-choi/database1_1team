@@ -66,14 +66,14 @@ public class NoticeService {
     }
 
     public void NoticeModify(Scanner sc) {
-        System.out.println("게시글 수정");
+        System.out.println("수정할 게시글 번호선택");
         System.out.println("게시글 번호 수정");
         int num = sc.nextInt();
         System.out.println("제목 수정");
         String title = sc.next();
-        System.out.print("내용");
+        System.out.print("내용 수정");
         String content = sc.next();
-        System.out.print("아이디");
+        System.out.print("아이디 수정");
         String p_id = sc.next();
 
         dao.modify(new Noticeboard(num,title, content,p_id));
