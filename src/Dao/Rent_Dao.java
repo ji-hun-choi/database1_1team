@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import conn.MysqlConnect;
 import Vo.Rent_Vo;
@@ -227,10 +228,10 @@ public class Rent_Dao {
 
 	}
 
-	public int searchPid(String id){
+	public ArrayList<Rent_Vo> searchPid(String id){
 		Connection conn = myconn.getConn();
 		ResultSet rs;
-
+		ArrayList<Rent_Vo> list = new ArrayList<>();
 		String sql = "select r_num from person inner join rent where id = ?";
 
 		try {
@@ -239,8 +240,8 @@ public class Rent_Dao {
 			pstmt.setString(1, id);
 
 			rs = pstmt.executeQuery();
-			if (rs.next()){
-				return rs.getInt(1);
+			while (rs.next()){
+				list.add(new Rent_Vo(rs.getInt(1)));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -253,7 +254,7 @@ public class Rent_Dao {
 				e.printStackTrace();
 			}
 		}
-		return 0;
+		return list;
 	}
 
 	//----------------------------------

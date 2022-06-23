@@ -3,6 +3,7 @@ package Service;
 import Dao.PersonDao;
 import Dao.Rent_Dao;
 import Vo.Person;
+import Vo.Rent_Vo;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -172,11 +173,14 @@ public class PersonService {
 
     public void peopleDelete(Scanner sc) { // 회원 탈퇴
         System.out.println("회원 탈퇴");
-        System.out.print("정말로 탈퇴 하시겠습니까? Y or N");
+        System.out.print("정말로 탈퇴 하시겠습니까? Y or N : ");
         String choice = sc.next().toUpperCase();
 
         if (choice.equals("Y")){
-            rdao.delete(rdao.searchPid(id));
+            ArrayList<Rent_Vo> list = rdao.searchPid(id);
+            for (Rent_Vo r : list){
+                rdao.delete(r.getR_num());
+            }
             dao.delete(id, pwd);
             System.out.println("삭제 되었습니다.");
             peopleLogout(sc);
@@ -192,10 +196,13 @@ public class PersonService {
         String id = sc.next();
         System.out.print("비밀번호 입력:");
         String pwd = sc.next();
-        System.out.print("정말로 삭제 하시겠습니까? Y or N");
+        System.out.print("정말로 삭제 하시겠습니까? Y or N : ");
         String choice = sc.next().toUpperCase();
         if (choice.equals("Y")){
-            rdao.delete(rdao.searchPid(id));
+            ArrayList<Rent_Vo> list = rdao.searchPid(id);
+            for (Rent_Vo r : list){
+                rdao.delete(r.getR_num());
+            }
             dao.delete(id, pwd);
             System.out.println("삭제 되었습니다.");
         } else {
@@ -206,6 +213,7 @@ public class PersonService {
     public void peopleAll(Scanner sc){
         ArrayList<Person> list = dao.selectAll();
         for (Person l : list){
+
             System.out.println(l);
         }
     }
