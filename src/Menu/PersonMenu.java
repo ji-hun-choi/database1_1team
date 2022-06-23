@@ -62,21 +62,10 @@ public class PersonMenu {
         int c;
         while (flag) {
             System.out.println("도서 시스템");
-            System.out.println("1.전체조회 | 2.이름조회 | 3.번호조회 | 4.종료"); // 선택 목록
+            System.out.println(""); // 선택 목록
             c = sc.nextInt();
             switch (c){
-                case 1:
-                    bservice.printAll();
-                    break;
-                case 2:
-                    bservice.getBookByName(sc);
-                    break;
-                case 3:
-                    bservice.getBookByNum(sc);
-                    break;
-                case 4:
-                    flag = false;
-                    break;
+
             }
         }
     }
