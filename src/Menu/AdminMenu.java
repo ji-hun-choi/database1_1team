@@ -3,7 +3,7 @@ package Menu;
 import Service.BookService;
 import Service.NoticeService;
 import Service.PersonService;
-//import Service.RentService;
+import Service.RentService;
 
 import java.util.Scanner;
 
@@ -11,11 +11,14 @@ public class AdminMenu {
 
     private PersonService pservice;
     private BookService bservice;
-//    private RentService rservice;
+    private RentService rservice;
     private NoticeService nservice;
 
     public AdminMenu(PersonService p){
         pservice = p;
+        bservice = new BookService();
+        rservice = new RentService();
+        nservice = new NoticeService();
     }
     public void run(Scanner sc){
         boolean flag = true;
@@ -60,9 +63,31 @@ public class AdminMenu {
         int c;
         while (flag) {
             System.out.println("도서 관리");
-            System.out.println(""); // 선택 목록
+            System.out.println("1.추가 | 2.수정 | 3.삭제 | 4.전체조회 |" +
+                    " 5.책이름조회 | 6.책번호조회 | 7.종료"); // 선택 목록
             c = sc.nextInt();
             switch (c){
+                case 1:
+                    bservice.addBook(sc);
+                    break;
+                case 2:
+                    bservice.editBook(sc);
+                    break;
+                case 3:
+                    bservice.delBook(sc);
+                    break;
+                case 4:
+                    bservice.printAll();
+                    break;
+                case 5:
+                    bservice.getBookByName(sc);
+                    break;
+                case 6:
+                    bservice.getBookByNum(sc);
+                    break;
+                case 7:
+                    flag=false;
+                    break;
 
             }
         }

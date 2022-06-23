@@ -29,12 +29,12 @@ public class BookDao {
 			rs = pstmt.executeQuery(query);
 			while(rs.next()) {
 				int num = rs.getInt("num");
-				String name = rs.getString("name");
+				String bname = rs.getString("bname");
 				String author = rs.getString("author");
 				String genre = rs.getString("genre");
 				boolean rent = rs.getBoolean("rent");
 				
-				Book book = new Book(num, name, author, genre, rent);
+				Book book = new Book(num, bname, author, genre, rent);
 				
 				bookList.add(book);
 			}
@@ -105,9 +105,7 @@ public class BookDao {
 	// 2. 도서 정보 수정
 	public int update(Book book) {
 		Connection conn = dbconn.getConn();
-		String query = "UPDATE BOOK "
-				     + "SET NAME = ?, AUTHOR = ?, GENRE = ?, RENT = ?"
-				     + "WHERE num = ?";
+		String query = "update book set bname = ?, author = ?, genre = ?, rent = ? where num = ?";
 		int result = 0;
 		
 		try {
@@ -148,11 +146,11 @@ public class BookDao {
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
-				book = new Book(rs.getInt("NUM"),
-								rs.getString("NAME"),
-								rs.getString("AUTHOR"),
-								rs.getString("GENRE"),
-								rs.getBoolean("RENT"));
+				book = new Book(rs.getInt("num"),
+								rs.getString("bname"),
+								rs.getString("author"),
+								rs.getString("genre"),
+								rs.getBoolean("rent"));
 			}
 			
 		} catch (SQLException e) {
@@ -169,16 +167,16 @@ public class BookDao {
 	}
 
 	// 4. 도서 제목으로 조회
-	public Book selectTitle(String bookTitle) {
+	public Book selectName(String bookName) {
 		Connection conn = dbconn.getConn();
 		String query = "SELECT * FROM BOOK "
-				     + "WHERE title = ?";
+				     + "WHERE bname = ?";
 		Book b = null;
 		ResultSet rs = null;
 		
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(query);
-			pstmt.setString(1, bookTitle);
+			pstmt.setString(1, bookName);
 			
 			rs = pstmt.executeQuery();
 			if(rs.next()){

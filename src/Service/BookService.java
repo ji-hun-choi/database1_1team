@@ -14,10 +14,8 @@ public class BookService {
             dao = new BookDao();
         }
     
-        // ë„ì„œë“±ë¡
+        // µµ¼­µî·Ï
         public void addBook(Scanner sc) {
-            System.out.print("num:");
-            int num = sc.nextInt();
 
             System.out.print("name:");
             String name = sc.next();
@@ -27,43 +25,42 @@ public class BookService {
     
             System.out.print("genre:");
             String genre = sc.next();
-    
-            System.out.print("rent:");
-            boolean rent = sc.nextBoolean();
+
+            boolean rent = false;
 
 
-           Book  p = new Book(num, name, author, genre , rent );
+           Book  p = new Book(name, author, genre , rent);
            dao.insert(p);
         }
     
-        // ë„ì„œë²ˆí˜¸ë¡œ ê²€ìƒ‰
+        // µµ¼­¹øÈ£·Î °Ë»ö
         public void getBookByNum(Scanner sc) {
             System.out.print("search num:");
             int num = sc.nextInt();
     
             Book p = dao.selectNum(num);
             if (p == null) {
-                System.out.println("ì—†ëŠ” ë„ì„œë²ˆí˜¸");
+                System.out.println("¾ø´Â µµ¼­¹øÈ£");
             } else {
                 System.out.println(p);
             }
         }
     
     
-        // ì œëª©ìœ¼ë¡œ ê²€ìƒ‰
+        // Á¦¸ñÀ¸·Î °Ë»ö
         public void getBookByName(Scanner sc) {
             System.out.print("search name:");
             String name = sc.next();
     
-            Book b = dao.selectTitle(name);
+            Book b = dao.selectName(name);
             if (b == null) {
-                System.out.println("ì—†ëŠ” ë„ì„œ");
+                System.out.println("¾ø´Â µµ¼­");
             } else {
                 System.out.println(b);
             }
         }
     
-        // ìˆ˜ì •
+        // ¼öÁ¤
         public void editBook(Scanner sc) {
             System.out.print("edit num:");
             int num = sc.nextInt();
@@ -83,15 +80,15 @@ public class BookService {
     
         }
     
-        // ì‚­ì œ
-        public void delProduct(Scanner sc) {
-            System.out.print("ì‚­ì œí•  ë„ì„œë²ˆí˜¸ :");
+        // »èÁ¦
+        public void delBook(Scanner sc) {
+            System.out.print("»èÁ¦ÇÒ µµ¼­¹øÈ£ :");
             int num = sc.nextInt();
             dao.bookDelete(num);
-            System.out.println("ì‚­ì œì™„ë£Œ");
+            System.out.println("»èÁ¦¿Ï·á");
         }
     
-        // ì „ì²´ì¡°íšŒ
+        // ÀüÃ¼Á¶È¸
         public void printAll() {
             ArrayList<Book> list = dao.bookSelectAll();
             for (Book p : list) {
