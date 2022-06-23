@@ -1,4 +1,4 @@
-package project_t1;
+package Dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
