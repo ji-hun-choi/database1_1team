@@ -54,7 +54,7 @@ public class NoticeService {
         setP_id(id);
     }
 
-    public void Noticeinsert(Scanner sc) {
+    public void NoticeInsert(Scanner sc) {
         System.out.println("게시글작성");
         System.out.print("제목:");
         String title = sc.next();
