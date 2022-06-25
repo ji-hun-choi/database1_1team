@@ -8,7 +8,7 @@ import java.sql.SQLException;
 public class MysqlConnect {
     private static MysqlConnect myconn = new MysqlConnect();
     //db서버 주소, 포트번호 /데이터베이스명?설정
-    private String url = "jdbc:mysql://localhost:3306/javawork?serverTimezone=UTC&useSSL=false";
+    private String url = "jdbc:mysql://localhost:3306/team1?serverTimezone=UTC&useSSL=false";
     //드라이버 명
     private String driver = "com.mysql.cj.jdbc.Driver";
 
