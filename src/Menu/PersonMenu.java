@@ -24,9 +24,9 @@ public class PersonMenu {
         boolean flag = true;
         int c;
         while (flag) {
-            System.out.println("ì‚¬ìš©ì ì‹œìŠ¤í…œ ì…ë‹ˆë‹¤.");
-            System.out.println("1.ë„ì„œì¡°íšŒ | 2.ëŒ€ì—¬ê´€ë¦¬ | 3.ê²Œì‹œíŒì¡°íšŒ | 4.ê°œì¸ì •ë³´ ë³€ê²… " +
-                    " | 5.ê°œì¸ì •ë³´ ì¡°íšŒ | 6.íšŒì›íƒˆí‡´ | 7.ë¡œê·¸ì•„ì›ƒ");
+            System.out.println("»ç¿ëÀÚ ½Ã½ºÅÛ ÀÔ´Ï´Ù.");
+            System.out.println("1.µµ¼­Á¶È¸ | 2.´ë¿©°ü¸® | 3.°Ô½ÃÆÇÁ¶È¸ | 4.°³ÀÎÁ¤º¸ º¯°Ï " +
+                    " | 5.°³ÀÎÁ¤º¸ Á¶È¸ | 6.È¸¿øÅ»Åğ | 7.·Î±×¾Æ¿ô");
             c = sc.nextInt();
             switch (c) {
                 case 1:
@@ -56,13 +56,13 @@ public class PersonMenu {
         }
     }
 
-    // ì „ì²´ì¡°íšŒ, ìƒì„¸ì¡°íšŒ, ì¢…ë£Œ  (ë¶ˆí•„ìš”í•˜ë‹¤ ìƒê°ë“œëŠ”ê±´ ë¹¼ì£¼ì„¸ìš”)
+    // ÀüÃ¼Á¶È¸, »ó¼¼Á¶È¸, Á¾·á  (ºÒÇÊ¿äÇÏ´Ù »ı°¢µå´Â°Ç »©ÁÖ¼¼¿ä)
     public void bookPerson(Scanner sc){
         boolean flag = true;
         int c;
         while (flag) {
-            System.out.println("ë„ì„œ ì‹œìŠ¤í…œ");
-            System.out.println("1.ì „ì²´ì¡°íšŒ | 2.ì´ë¦„ì¡°íšŒ | 3.ë²ˆí˜¸ì¡°íšŒ | 4.ì¢…ë£Œ"); // ì„ íƒ ëª©ë¡
+            System.out.println("µµ¼­ ½Ã½ºÅÛ");
+            System.out.println("1.ÀüÃ¼Á¶È¸ | 2.ÀÌ¸§Á¶È¸ | 3.¹øÈ£Á¶È¸ | 4.Á¾·á"); // ¼±ÅÃ ¸ñ·Ï
             c = sc.nextInt();
             switch (c){
                 case 1:
@@ -82,64 +82,66 @@ public class PersonMenu {
     }
 
 
-    // ê¸°ë¡ì¡°íšŒ, ëŒ€ì—¬, ë°˜ë‚©, ì¢…ë£Œ
+    // ±â·ÏÁ¶È¸, ´ë¿©, ¹İ³³, Á¾·á
 
     public void rentPerson(Scanner sc) {
         boolean flag = true;
         int c = 0;
 
         while (flag) {
-            System.out.println("Rent ì¼ë°˜ ì‚¬ìš©ì ì‹œìŠ¤í…œ");
-            System.out.println("1. ì±… ëŒ€ì—¬ | 2. ë‚´ ëŒ€ì—¬ëª©ë¡ | 3. ì±… ë°˜ë‚©í•˜ê¸° | 4. ì¢…ë£Œ"); // ì„ íƒ ëª©ë¡
+            System.out.println("Rent ÀÏ¹İ »ç¿ëÀÚ ½Ã½ºÅÛ");
+            System.out.println("1. Ã¥ ´ë¿© | 2. ³» ´ë¿©¸ñ·Ï | 3. Ã¥ ¹İ³³ÇÏ±â | 4. Á¾·á"); // ¼±ÅÃ ¸ñ·Ï
 
-            while (c == 0) { //ìˆ«ìë§Œ ì…ë ¥í•˜ëŠ”ì§€ ì²´í¬.
-                try {
-                    System.out.println("Enter number: ");
-                    c = Integer.parseInt(sc.next());
-                } catch (NumberFormatException e) {
-                    System.out.println("not a correct number!");
-                    c = 0;
-                }
-            }
+//            while (c == 0) { //¼ıÀÚ¸¸ ÀÔ·ÂÇÏ´ÂÁö Ã¼Å©.
+//                try {
+//                    System.out.println("Enter number: ");
+//                    c = Integer.parseInt(sc.next());
+//                } catch (NumberFormatException e) {
+//                    System.out.println("not a correct number!");
+//                    c = 0;
+//                }
+//            }
+
+            c = sc.nextInt();
 
             switch (c) {
                 case (1):
-                    System.out.println("ì±…ì„ ëŒ€ì—¬í•©ë‹ˆë‹¤");
+                    System.out.println("Ã¥À» ´ë¿©ÇÕ´Ï´Ù");
                     rservice.addRent(sc);
                     break;
                 case (2):
-                    System.out.println("ë‚´ ëŒ€ì—¬ëª©ë¡");
-                    rservice.selectByPidUser();//@@@@@@@@@@@@@@@@@@@@@@@@@@@@"" ë¥¼ u_idë¡œ ë³€í™˜.
+                    System.out.println("³» ´ë¿©¸ñ·Ï");
+                    rservice.selectByPidUser();//@@@@@@@@@@@@@@@@@@@@@@@@@@@@"" ¸¦ u_id·Î º¯È¯.
                     break;
                 case (3):
-                    System.out.println("ì±…ì„ ë°˜ë‚©í•©ë‹ˆë‹¤");
+                    System.out.println("Ã¥À» ¹İ³³ÇÕ´Ï´Ù");
                     rservice.updateRentUser(sc);
                     break;
                 case (4):
-                    System.out.println("ì¢…ë£Œ í•©ë‹ˆë‹¤");
+                    System.out.println("Á¾·á ÇÕ´Ï´Ù");
                     flag = false;
                     break;
             }
         }
     }
 
-    // ì „ì²´í™•ì¸
+    // ÀüÃ¼È®ÀÎ
 
-    // ì „ì²´í™•ì¸
+    // ÀüÃ¼È®ÀÎ
     public void noticePerson(Scanner sc){
         boolean flag = true;
         int c;
         while (flag) {
-            System.out.println("ê²Œì‹œíŒ ì‹œìŠ¤í…œ");
-            System.out.println("1.ê²Œì‹œíŒ í™•ì¸ | 2.ì¢…ë£Œ"); // ì„ íƒ ëª©ë¡
+            System.out.println("°Ô½ÃÆÇ ½Ã½ºÅÛ");
+            System.out.println("1.°Ô½ÃÆÇ È®ÀÎ | 2.Á¾·á"); // ¼±ÅÃ ¸ñ·Ï
             c = sc.nextInt();
             switch (c){
                 case (1):
-                    System.out.println("ê²Œì‹œê¸€ ëª©ë¡");
+                    System.out.println("°Ô½Ã±Û ¸ñ·Ï");
                     nservice.NoticeAll();
                     break;
                 case (2):
-                    System.out.println("ì¢…ë£Œ í•©ë‹ˆë‹¤");
+                    System.out.println("Á¾·á ÇÕ´Ï´Ù");
                     flag=false;
                     break;
             }
