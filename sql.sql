@@ -40,21 +40,30 @@ p_id char(20) not null,
 foreign key(p_id) references Person(id)
 );
 
-insert into Person(id, name, pwd,address, phone_num, admin_check) values('abc123', "abc", "123", "서울시 성동", "6699", true);
-insert into Person(id, name, pwd,address, phone_num, admin_check) values('c1', "c", "1", "서울시", "8831", false);
-insert into book(bname, author, genre,rent) values("책","마귀","빔",false);
-insert into book(bname, author, genre,rent) values("책2","마귀1","빔",false);
-insert into book(bname, author, genre,rent) values("책3","마귀4","빔",false);
-insert into rent(r_num,b_num,p_id,start_day,end_day,r_return) values (0,1,"123","2020","2020",null);
-insert into Noticeboard(title, content, p_id) values ("제목1", "내용2", "abc123")
-insert into Noticeboard(title, content, p_id) values ("제목2", "내용1", "abc123")
+insert into Person(id, name, pwd,address, phone_num, admin_check) values('admin', "지훈", "1", "서울시 성동", "6714", true);
+insert into Person(id, name, pwd,address, phone_num, admin_check) values('p1', "고객1", "1", "서울시", "1036", false);
+insert into Person(id, name, pwd,address, phone_num, admin_check) values('p2', "고객2", "2", "서울시", "9603", false);
+insert into Person(id, name, pwd,address, phone_num, admin_check) values('p3', "고객3", "3", "서울시", "8806", false);
+insert into book(bname, author, genre,rent) values("책이름1","최지훈","비어있음",false);
+insert into rent(r_num,b_num,p_id,start_day,end_day,r_return) values (0,1,"a2","2020","2020",null);
 
 select * from person;
 select * from book;
 select * from noticeboard;
-
+select * from rent;
+select * from rent where p_id=12 order by r_num;
 update person set title="제목1", content="내용1" where num="5";
 
 
 select * from rent inner join person where id="123";
-delete from person where id="123" and pwd="1234";
+delete from person where name="1";
+
+select * from person where name="1" and phone_num="123456";
+
+select *from rent where p_id='12' order by r_num;
+
+update person set id = "13" where name = "1";
+select * from person inner join rent;
+delete from person where id="";
+
+select r_num from person inner join rent where id = 123;

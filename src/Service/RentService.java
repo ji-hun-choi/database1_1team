@@ -272,7 +272,7 @@ public class RentService {
 		}
 		r_vo = rdao.select_by_r_num(r_num);
 		
-		if(r_vo.getP_id() == id) {//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ p_id 가 같아서 자기것인지를 확인
+		if(r_vo.getP_id().equals(id)) {//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ p_id 가 같아서 자기것인지를 확인
 			int b_num = r_vo.getB_num();
 			String p_id = r_vo.getP_id();
 			String start_day = r_vo.getStart_day();
